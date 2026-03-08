@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 interface Exercise {
@@ -156,6 +158,7 @@ const DayCard = ({ day, index }: { day: WorkoutDay; index: number }) => {
 const AiWorkoutGenerator = () => {
   const { toast } = useToast();
   const { user } = useAuth();
+  const { isPremium, loading: premiumLoading } = usePremiumStatus();
   const navigate = useNavigate();
   const [goal, setGoal] = useState("");
   const [level, setLevel] = useState("");
@@ -278,6 +281,12 @@ const AiWorkoutGenerator = () => {
 
       {/* Form */}
       <section className="container -mt-10 relative z-20 pb-20">
+        {!premiumLoading && !isPremium ? (
+          <div className="mx-auto max-w-2xl animate-scale-in">
+            <PremiumGate message="Upgrade to Premium to unlock AI personalized workout plans." />
+          </div>
+        ) : (
+        <>
         <Card className="mx-auto max-w-2xl shadow-[var(--shadow-card-hover)] border-0 animate-scale-in">
           <CardContent className="space-y-8 p-8">
             {/* Goal */}
@@ -426,6 +435,8 @@ const AiWorkoutGenerator = () => {
               ))}
             </div>
           </div>
+        )}
+        </>
         )}
       </section>
     </Layout>
