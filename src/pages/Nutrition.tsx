@@ -3,6 +3,8 @@ import { Apple, Droplets, Wheat, Beef, Leaf, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import PremiumGate from "@/components/PremiumGate";
+import PageHero from "@/components/PageHero";
+import heroNutritionImg from "@/assets/hero-nutrition.jpg";
 
 const guides = [
   {
