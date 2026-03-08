@@ -16,6 +16,7 @@ import Pricing from "./pages/Pricing";
 import FatLossProgram from "./pages/programs/FatLossProgram";
 import StrengthBuilderProgram from "./pages/programs/StrengthBuilderProgram";
 import ThirtyDayChallenge from "./pages/programs/ThirtyDayChallenge";
+import AiWorkoutGenerator from "./pages/AiWorkoutGenerator";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
