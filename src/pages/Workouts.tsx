@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import FeaturedPrograms from "@/components/FeaturedPrograms";
+import PageHero from "@/components/PageHero";
+import heroWorkoutsImg from "@/assets/hero-workouts.jpg";
 
 // Exercise images
 import imgBarbellSquat from "@/assets/exercises/barbell-squat.jpg";
