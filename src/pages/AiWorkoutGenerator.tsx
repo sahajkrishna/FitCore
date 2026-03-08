@@ -14,6 +14,8 @@ import { Badge } from "@/components/ui/badge";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 interface Exercise {
