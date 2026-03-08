@@ -354,6 +354,7 @@ const Dashboard = () => {
           </div>
         </section>
         </RevealSection>
+        <RevealSection delay={200}>
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Quick Access</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
