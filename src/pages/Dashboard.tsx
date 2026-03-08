@@ -197,6 +197,51 @@ const Dashboard = () => {
           </div>
         </section>
 
+        {/* Subscription Status */}
+        <section>
+          <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+            <Crown className="h-5 w-5 text-accent" /> Subscription Status
+          </h2>
+          <Card className="border-border/60">
+            <CardContent className="pt-6">
+              {isPremium && subscription ? (
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-accent/10">
+                      <Crown className="h-6 w-6 text-accent" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-semibold text-foreground capitalize">{subscription.plan} Plan</p>
+                        <Badge variant="default" className="bg-accent text-accent-foreground text-[10px]">Active</Badge>
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-0.5">
+                        ₹{(subscription.amount / 100).toFixed(0)}/{subscription.currency} · Renews {new Date(subscription.expires_at).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Member since {new Date(subscription.created_at).toLocaleDateString()}</p>
+                </div>
+              ) : (
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted/60">
+                      <Crown className="h-6 w-6 text-muted-foreground" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-foreground">Free Plan</p>
+                      <p className="text-xs text-muted-foreground">Upgrade to unlock advanced features</p>
+                    </div>
+                  </div>
+                  <Link to="/pricing">
+                    <Button variant="coral" size="sm">Upgrade to Premium <ArrowRight className="ml-1 h-3 w-3" /></Button>
+                  </Link>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </section>
+
         {/* Weekly Progress */}
         <section>
           <div className="flex items-center justify-between mb-4">
