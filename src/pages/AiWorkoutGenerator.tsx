@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Sparkles, Dumbbell, Flame, Zap, Target, Calendar, TrendingUp,
-  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp,
+  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import { useToast } from "@/hooks/use-toast";
-
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 interface Exercise {
   name: string;
   sets: string;
@@ -144,11 +146,42 @@ const DayCard = ({ day, index }: { day: WorkoutDay; index: number }) => {
 
 const AiWorkoutGenerator = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [goal, setGoal] = useState("");
   const [level, setLevel] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState("");
   const [plan, setPlan] = useState<WorkoutPlan | null>(null);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = async () => {
+    if (!user) {
+      toast({ title: "Please sign in to save plans", variant: "destructive" });
+      navigate("/login");
+      return;
+    }
+    if (!plan) return;
+
+    setSaving(true);
+    const { error } = await supabase.from("ai_workout_plans" as any).insert({
+      user_id: user.id,
+      fitness_goal: goal,
+      experience_level: level,
+      days_per_week: parseInt(daysPerWeek),
+      workout_plan: plan,
+    } as any);
+
+    if (error) {
+      console.error(error);
+      toast({ title: "Failed to save plan", variant: "destructive" });
+    } else {
+      setSaved(true);
+      toast({ title: "Plan saved!", description: "View it on your dashboard." });
+    }
+    setSaving(false);
+  };
 
   const handleGenerate = async () => {
     if (!goal.trim() || !level || !daysPerWeek) {
@@ -158,6 +191,7 @@ const AiWorkoutGenerator = () => {
 
     setLoading(true);
     setPlan(null);
+    setSaved(false);
 
     try {
       const resp = await fetch(
@@ -312,6 +346,15 @@ const AiWorkoutGenerator = () => {
                   <Coffee className="h-3.5 w-3.5" /> {restDays} rest days
                 </Badge>
               </div>
+              <Button
+                variant={saved ? "secondary" : "coral"}
+                size="sm"
+                className="gap-1.5"
+                onClick={handleSave}
+                disabled={saving || saved}
+              >
+                {saved ? <><Check className="h-4 w-4" /> Saved to Dashboard</> : saving ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving…</> : <><Save className="h-4 w-4" /> Save Plan</>}
+              </Button>
             </div>
 
             {/* Day cards */}
