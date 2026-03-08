@@ -41,6 +41,39 @@ export type Database = {
         }
         Relationships: []
       }
+      workout_progress: {
+        Row: {
+          calories: string | null
+          category: string
+          created_at: string
+          date_completed: string
+          duration: string | null
+          id: string
+          user_id: string
+          workout_name: string
+        }
+        Insert: {
+          calories?: string | null
+          category: string
+          created_at?: string
+          date_completed?: string
+          duration?: string | null
+          id?: string
+          user_id: string
+          workout_name: string
+        }
+        Update: {
+          calories?: string | null
+          category?: string
+          created_at?: string
+          date_completed?: string
+          duration?: string | null
+          id?: string
+          user_id?: string
+          workout_name?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
