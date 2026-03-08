@@ -35,10 +35,10 @@ const Footer = () => (
         <div>
           <h4 className="font-heading text-sm font-semibold uppercase tracking-wider text-primary-foreground/50">Company</h4>
           <div className="mt-3 flex flex-col gap-2 text-sm">
-            <span className="text-primary-foreground/70">About FitCore</span>
-            <span className="text-primary-foreground/70">Contact</span>
-            <span className="text-primary-foreground/70">Privacy Policy</span>
-            <span className="text-primary-foreground/70">Terms of Service</span>
+            <Link to="/about" className="text-primary-foreground/70 hover:text-accent transition-colors">About FitCore</Link>
+            <Link to="/contact" className="text-primary-foreground/70 hover:text-accent transition-colors">Contact</Link>
+            <Link to="/privacy" className="text-primary-foreground/70 hover:text-accent transition-colors">Privacy Policy</Link>
+            <Link to="/terms" className="text-primary-foreground/70 hover:text-accent transition-colors">Terms of Service</Link>
           </div>
         </div>
       </div>

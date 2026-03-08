@@ -19,6 +19,10 @@ import FatLossProgram from "./pages/programs/FatLossProgram";
 import StrengthBuilderProgram from "./pages/programs/StrengthBuilderProgram";
 import ThirtyDayChallenge from "./pages/programs/ThirtyDayChallenge";
 import AiWorkoutGenerator from "./pages/AiWorkoutGenerator";
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -45,6 +49,10 @@ const App = () => (
             <Route path="/programs/strength-builder" element={<StrengthBuilderProgram />} />
             <Route path="/programs/30-day-challenge" element={<ThirtyDayChallenge />} />
             <Route path="/ai-workout" element={<AiWorkoutGenerator />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
