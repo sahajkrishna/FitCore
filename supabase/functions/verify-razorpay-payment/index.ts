@@ -97,6 +97,16 @@ Deno.serve(async (req) => {
       });
     }
 
+    // Update premium_status in profiles
+    const { error: profileError } = await adminClient
+      .from("profiles")
+      .update({ premium_status: true })
+      .eq("user_id", userId);
+
+    if (profileError) {
+      console.error("Profile update error:", profileError);
+    }
+
     return new Response(
       JSON.stringify({ success: true, message: "Premium activated!" }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
