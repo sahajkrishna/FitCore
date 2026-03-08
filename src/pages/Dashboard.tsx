@@ -264,7 +264,9 @@ const Dashboard = () => {
           </div>
           <Card className="border-border/60">
             <CardContent className="pt-6">
-              {weeklyData.length > 0 ? (
+              {!isPremium ? (
+                <PremiumGate message="Workout analytics and weekly progress charts are available for Premium members." />
+              ) : weeklyData.length > 0 ? (
                 <ResponsiveContainer width="100%" height={180}>
                   <BarChart data={weeklyData} barCategoryGap="25%">
                     <XAxis dataKey="day" axisLine={false} tickLine={false} tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
