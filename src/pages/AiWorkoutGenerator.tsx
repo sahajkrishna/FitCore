@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   Sparkles, Dumbbell, Flame, Zap, Target, Calendar, TrendingUp,
-  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp,
+  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,9 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import { useToast } from "@/hooks/use-toast";
-
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
+import { useNavigate } from "react-router-dom";
 interface Exercise {
   name: string;
   sets: string;
