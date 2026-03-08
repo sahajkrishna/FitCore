@@ -17,11 +17,11 @@ export const usePremiumStatus = () => {
     const checkPremium = async () => {
       const { data, error } = await supabase
         .from("subscriptions" as any)
-        .select("id, status, expires_at")
+        .select("id, subscription_status, subscription_end_date")
         .eq("user_id", user.id)
-        .eq("status", "active")
-        .gte("expires_at", new Date().toISOString())
-        .order("created_at", { ascending: false })
+        .eq("subscription_status", "active")
+        .gte("subscription_end_date", new Date().toISOString())
+        .order("subscription_start_date", { ascending: false })
         .limit(1);
 
       if (!error && data && data.length > 0) {

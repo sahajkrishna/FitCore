@@ -48,9 +48,9 @@ const categoryColor = (cat: string) => {
 
 interface SubscriptionInfo {
   plan: string;
-  status: string;
-  expires_at: string;
-  created_at: string;
+  subscription_status: string;
+  subscription_end_date: string;
+  subscription_start_date: string;
   amount: number;
   currency: string;
 }
@@ -92,9 +92,9 @@ const Dashboard = () => {
 
     supabase
       .from("subscriptions")
-      .select("plan, status, expires_at, created_at, amount, currency")
+      .select("plan, subscription_status, subscription_end_date, subscription_start_date, amount, currency")
       .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
+      .order("subscription_start_date", { ascending: false })
       .limit(1)
       .then(({ data }) => {
         if (data && data.length > 0) setSubscription(data[0] as SubscriptionInfo);
@@ -226,11 +226,11 @@ const Dashboard = () => {
                         <Badge variant="default" className="bg-accent text-accent-foreground text-[10px]">Active</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        ₹{(subscription.amount / 100).toFixed(0)}/{subscription.currency} · Renews {new Date(subscription.expires_at).toLocaleDateString()}
+                        ₹{(subscription.amount / 100).toFixed(0)}/{subscription.currency} · Renews {new Date(subscription.subscription_end_date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">Member since {new Date(subscription.created_at).toLocaleDateString()}</p>
+                  <p className="text-xs text-muted-foreground">Member since {new Date(subscription.subscription_start_date).toLocaleDateString()}</p>
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">

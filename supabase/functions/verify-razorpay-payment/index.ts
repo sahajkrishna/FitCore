@@ -86,7 +86,7 @@ Deno.serve(async (req) => {
       plan: "premium",
       amount: 49900,
       currency: "INR",
-      status: "active",
+      subscription_status: "active",
     });
 
     if (insertError) {
