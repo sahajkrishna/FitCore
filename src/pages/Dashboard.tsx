@@ -268,6 +268,7 @@ const Dashboard = () => {
         </section>
 
         {/* Quick Stats */}
+        <RevealSection>
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: Flame, label: "This Week", value: `${totalThisWeek} workout${totalThisWeek !== 1 ? "s" : ""}`, color: "text-accent", bg: "bg-accent/10" },
