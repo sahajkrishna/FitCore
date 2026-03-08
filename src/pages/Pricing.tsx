@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, Dumbbell, Loader2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import RevealSection from "@/components/RevealSection";
 import heroPricingImg from "@/assets/hero-pricing.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
