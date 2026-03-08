@@ -260,6 +260,41 @@ const Dashboard = () => {
           ))}
         </section>
 
+        {/* Program Progress */}
+        {programProgress.length > 0 && (
+          <section>
+            <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+              <Target className="h-5 w-5 text-accent" /> Active Programs
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {programProgress.map((prog) => {
+                const pct = Math.round((prog.completed / prog.total) * 100);
+                return (
+                  <Link key={prog.slug} to={prog.slug} className="group">
+                    <Card className="border-border/60 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+                      <CardContent className="py-5 px-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-heading text-sm font-bold text-foreground">{prog.title}</h3>
+                          <Badge variant="secondary" className="text-xs">{pct}%</Badge>
+                        </div>
+                        <div className="h-2 w-full rounded-full bg-muted">
+                          <div
+                            className={`h-full rounded-full ${prog.color} transition-all duration-700`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          {prog.completed} of {prog.total} workouts completed
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
         {/* Workout Category Cards */}
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Explore Workouts</h2>
