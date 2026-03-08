@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
-import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, BarChart3, CheckCircle2, Loader2 } from "lucide-react";
+import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, BarChart3, CheckCircle2, Loader2, Bookmark, BookmarkCheck } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -59,20 +59,30 @@ const Workouts = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [completedToday, setCompletedToday] = useState<Set<string>>(new Set());
+  const [savedWorkouts, setSavedWorkouts] = useState<Set<string>>(new Set());
   const [loadingWorkout, setLoadingWorkout] = useState<string | null>(null);
+  const [savingWorkout, setSavingWorkout] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) return;
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    supabase
-      .from("workout_progress")
-      .select("workout_name")
-      .eq("user_id", user.id)
-      .gte("date_completed", today.toISOString())
-      .then(({ data }) => {
-        if (data) setCompletedToday(new Set(data.map((d) => d.workout_name)));
-      });
+
+    // Fetch completed today & saved workouts in parallel
+    Promise.all([
+      supabase
+        .from("workout_progress")
+        .select("workout_name")
+        .eq("user_id", user.id)
+        .gte("date_completed", today.toISOString()),
+      supabase
+        .from("saved_workouts")
+        .select("workout_name")
+        .eq("user_id", user.id),
+    ]).then(([completedRes, savedRes]) => {
+      if (completedRes.data) setCompletedToday(new Set(completedRes.data.map((d) => d.workout_name)));
+      if (savedRes.data) setSavedWorkouts(new Set(savedRes.data.map((d) => d.workout_name)));
+    });
   }, [user]);
 
   const markComplete = async (workoutName: string, category: string, duration: string, calories: string) => {
@@ -94,6 +104,43 @@ const Workouts = () => {
     } else {
       setCompletedToday((prev) => new Set(prev).add(workoutName));
       toast({ title: "Workout logged! 💪", description: `${workoutName} marked as completed.` });
+    }
+  };
+
+  const toggleSave = async (workoutName: string, category: string) => {
+    if (!user) {
+      toast({ title: "Sign in required", description: "Please sign in to save workouts.", variant: "destructive" });
+      return;
+    }
+    setSavingWorkout(workoutName);
+    const isSaved = savedWorkouts.has(workoutName);
+
+    if (isSaved) {
+      const { error } = await supabase
+        .from("saved_workouts")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("workout_name", workoutName);
+      setSavingWorkout(null);
+      if (!error) {
+        setSavedWorkouts((prev) => {
+          const next = new Set(prev);
+          next.delete(workoutName);
+          return next;
+        });
+        toast({ title: "Removed", description: `${workoutName} removed from saved workouts.` });
+      }
+    } else {
+      const { error } = await supabase.from("saved_workouts").insert({
+        user_id: user.id,
+        workout_name: workoutName,
+        category,
+      });
+      setSavingWorkout(null);
+      if (!error) {
+        setSavedWorkouts((prev) => new Set(prev).add(workoutName));
+        toast({ title: "Saved! 🔖", description: `${workoutName} added to your saved workouts.` });
+      }
     }
   };
 
@@ -119,12 +166,30 @@ const Workouts = () => {
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {cat.exercises.map((ex) => {
                 const done = completedToday.has(ex.name);
+                const saved = savedWorkouts.has(ex.name);
                 const isLoading = loadingWorkout === ex.name;
+                const isSaving = savingWorkout === ex.name;
                 return (
                   <div key={ex.name} className={`group rounded-xl bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 ${done ? "ring-2 ring-success/40" : ""}`}>
                     <div className="flex items-start justify-between">
                       <h3 className="font-heading text-base font-bold text-primary">{ex.name}</h3>
-                      <Badge variant="outline" className={`text-xs ${levelColor(ex.level)}`}>{ex.level}</Badge>
+                      <div className="flex items-center gap-2">
+                        <button
+                          onClick={() => toggleSave(ex.name, cat.key)}
+                          disabled={isSaving}
+                          className="text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
+                          title={saved ? "Unsave workout" : "Save workout"}
+                        >
+                          {isSaving ? (
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                          ) : saved ? (
+                            <BookmarkCheck className="h-4 w-4 text-accent" />
+                          ) : (
+                            <Bookmark className="h-4 w-4" />
+                          )}
+                        </button>
+                        <Badge variant="outline" className={`text-xs ${levelColor(ex.level)}`}>{ex.level}</Badge>
+                      </div>
                     </div>
                     <p className="mt-1 text-sm text-muted-foreground">{ex.muscle}</p>
                     <div className="mt-4 flex gap-4 text-xs text-muted-foreground">
