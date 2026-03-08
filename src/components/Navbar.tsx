@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Dumbbell } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Menu, X, Dumbbell, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/contexts/AuthContext";
 
 const links = [
   { to: "/", label: "Home" },
@@ -13,6 +14,13 @@ const links = [
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const { pathname } = useLocation();
+  const { user, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/");
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/80 backdrop-blur-md">
@@ -36,9 +44,27 @@ const Navbar = () => {
           ))}
         </nav>
 
-        <Button variant="coral" size="sm" className="hidden md:inline-flex">
-          Get Started
-        </Button>
+        <div className="hidden items-center gap-2 md:flex">
+          {user ? (
+            <>
+              <Button variant="coral" size="sm" asChild>
+                <Link to="/dashboard">Dashboard</Link>
+              </Button>
+              <Button variant="ghost" size="icon" onClick={handleSignOut} title="Sign out">
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" asChild>
+                <Link to="/login">Sign In</Link>
+              </Button>
+              <Button variant="coral" size="sm" asChild>
+                <Link to="/signup">Get Started</Link>
+              </Button>
+            </>
+          )}
+        </div>
 
         <button className="md:hidden text-foreground" onClick={() => setOpen(!open)}>
           {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -59,9 +85,25 @@ const Navbar = () => {
               {l.label}
             </Link>
           ))}
-          <Button variant="coral" size="sm" className="mt-2 w-full">
-            Get Started
-          </Button>
+          {user ? (
+            <>
+              <Button variant="coral" size="sm" className="mt-2 w-full" asChild>
+                <Link to="/dashboard" onClick={() => setOpen(false)}>Dashboard</Link>
+              </Button>
+              <Button variant="ghost" size="sm" className="mt-2 w-full" onClick={() => { handleSignOut(); setOpen(false); }}>
+                Sign Out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" size="sm" className="mt-2 w-full" asChild>
+                <Link to="/login" onClick={() => setOpen(false)}>Sign In</Link>
+              </Button>
+              <Button variant="coral" size="sm" className="mt-2 w-full" asChild>
+                <Link to="/signup" onClick={() => setOpen(false)}>Get Started</Link>
+              </Button>
+            </>
+          )}
         </nav>
       )}
     </header>
