@@ -377,8 +377,8 @@ const Dashboard = () => {
           </div>
         </section>
         </RevealSection>
+        </div>{/* end main container */}
 
-        {/* Gym Equipment Background Section */}
         <section className="relative py-16 my-0">
           <img src={bgGymEquipment} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
           <div className="absolute inset-0 bg-background/92" />
