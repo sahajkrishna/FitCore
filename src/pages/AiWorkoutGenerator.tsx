@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Sparkles, Dumbbell, Flame, Zap, Target, Calendar, TrendingUp,
-  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check,
+  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check, PartyPopper,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
@@ -42,6 +42,15 @@ const EXPERIENCE_LEVELS = [
   { value: "beginner", label: "Beginner", icon: Target, desc: "New to fitness" },
   { value: "intermediate", label: "Intermediate", icon: TrendingUp, desc: "Some experience" },
   { value: "advanced", label: "Advanced", icon: Zap, desc: "Seasoned athlete" },
+];
+
+const LOADING_MESSAGES = [
+  "Building your personalized workout...",
+  "Analyzing your fitness goals...",
+  "Selecting the best exercises for you...",
+  "Crafting your weekly schedule...",
+  "Adding rest days for recovery...",
+  "Almost there — finalizing your plan...",
 ];
 
 const DAY_COLORS: Record<string, string> = {
@@ -155,6 +164,23 @@ const AiWorkoutGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const msgInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (loading) {
+      let idx = 0;
+      setLoadingMsg(LOADING_MESSAGES[0]);
+      msgInterval.current = setInterval(() => {
+        idx = (idx + 1) % LOADING_MESSAGES.length;
+        setLoadingMsg(LOADING_MESSAGES[idx]);
+      }, 2500);
+    } else {
+      if (msgInterval.current) clearInterval(msgInterval.current);
+    }
+    return () => { if (msgInterval.current) clearInterval(msgInterval.current); };
+  }, [loading]);
 
   const handleSave = async () => {
     if (!user) {
@@ -192,6 +218,7 @@ const AiWorkoutGenerator = () => {
     setLoading(true);
     setPlan(null);
     setSaved(false);
+    setShowSuccess(false);
 
     try {
       const resp = await fetch(
@@ -218,6 +245,8 @@ const AiWorkoutGenerator = () => {
 
       const data: WorkoutPlan = await resp.json();
       setPlan(data);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 4000);
     } catch (e) {
       console.error(e);
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
@@ -325,8 +354,41 @@ const AiWorkoutGenerator = () => {
                 <><Sparkles className="h-5 w-5" /> Generate Workout Plan</>
               )}
             </Button>
-          </CardContent>
+           </CardContent>
         </Card>
+
+        {/* Loading state */}
+        {loading && (
+          <Card className="mx-auto mt-8 max-w-2xl border-0 shadow-[var(--shadow-card-hover)] animate-scale-in overflow-hidden">
+            <CardContent className="flex flex-col items-center gap-5 py-12 px-8">
+              <div className="relative flex h-20 w-20 items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-4 border-muted" />
+                <div className="absolute inset-0 rounded-full border-4 border-accent border-t-transparent animate-spin" />
+                <Dumbbell className="h-8 w-8 text-accent animate-pulse" />
+              </div>
+              <p className="text-center font-heading text-lg font-semibold text-foreground animate-fade-in" key={loadingMsg}>
+                {loadingMsg}
+              </p>
+              <div className="w-48 h-1.5 rounded-full bg-muted overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-accent to-primary rounded-full animate-[loading-bar_2.5s_ease-in-out_infinite]" />
+              </div>
+              <p className="text-xs text-muted-foreground">This may take a few moments</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Success banner */}
+        {showSuccess && plan && (
+          <div className="mx-auto mt-8 max-w-2xl animate-scale-in">
+            <div className="flex items-center gap-3 rounded-xl bg-success/10 border border-success/20 px-5 py-4">
+              <PartyPopper className="h-6 w-6 text-success shrink-0" />
+              <div>
+                <p className="font-heading text-sm font-bold text-foreground">Your workout plan is ready! 🎉</p>
+                <p className="text-xs text-muted-foreground">Scroll down to see your personalized {plan.days?.filter(d => !d.isRestDay).length}-day training program.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Result */}
         {plan && (
