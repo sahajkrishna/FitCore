@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
+import FeaturedPrograms from "@/components/FeaturedPrograms";
 
 // Exercise images
 import imgBarbellSquat from "@/assets/exercises/barbell-squat.jpg";
@@ -176,6 +177,9 @@ const Workouts = () => {
           <p className="mt-4 max-w-lg text-primary-foreground/70">Browse our curated collection of exercises organized by category. Perfect for all fitness levels.</p>
         </div>
       </section>
+
+      {/* Featured Programs */}
+      <FeaturedPrograms />
 
       <section className="container py-16 md:py-20">
         {categories.map((cat) => (
