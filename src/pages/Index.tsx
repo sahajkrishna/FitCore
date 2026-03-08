@@ -159,9 +159,9 @@ const Index = () => {
                 </Link>
               </Button>
               <Button
-                variant="outline"
+                variant="ghost"
                 size="lg"
-                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm"
+                className="text-primary-foreground/80 hover:text-primary-foreground hover:bg-primary-foreground/10"
                 onClick={() => document.getElementById("workout-categories")?.scrollIntoView({ behavior: "smooth" })}
               >
                 Explore Workouts
