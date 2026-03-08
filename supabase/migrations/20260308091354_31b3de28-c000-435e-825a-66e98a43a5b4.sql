@@ -1,0 +1,1 @@
+ALTER TABLE public.workout_progress DROP CONSTRAINT IF EXISTS workout_progress_category_check;
