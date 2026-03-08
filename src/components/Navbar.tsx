@@ -85,18 +85,23 @@ const Navbar = () => {
 
       {open && (
         <nav className="border-t border-border bg-card px-4 pb-4 md:hidden">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              onClick={() => setOpen(false)}
-              className={`block rounded-lg px-4 py-3 text-sm font-medium ${
-                pathname === l.to ? "bg-primary text-primary-foreground" : "text-foreground/70"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const isActive = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                onClick={() => setOpen(false)}
+                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-accent/10 text-accent border-l-2 border-accent"
+                    : "text-foreground/60 hover:bg-accent/5 hover:text-foreground"
+                }`}
+              >
+                {l.label}
+              </Link>
+            );
+          })}
           {user ? (
             <>
               <Button variant="coral" size="sm" className="mt-2 w-full" asChild>
