@@ -243,6 +243,48 @@ const Pricing = () => {
         </div>
       </section>
 
+      {/* Comparison Table */}
+      <RevealSection>
+      <section className="container pb-20">
+        <h2 className="font-heading text-2xl font-bold text-foreground text-center mb-8">Compare Plans</h2>
+        <div className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="border-b border-border bg-muted/40">
+                <th className="p-4 text-left font-heading font-semibold text-foreground">Feature</th>
+                <th className="p-4 text-center font-heading font-semibold text-foreground">Free</th>
+                <th className="p-4 text-center font-heading font-semibold text-accent">Premium</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                ["Workout Library", true, true],
+                ["Save Workouts", true, true],
+                ["Basic Nutrition Guides", true, true],
+                ["Workout Tracking", true, true],
+                ["Structured Programs", false, true],
+                ["Progress Analytics", false, true],
+                ["AI Workout Generator", false, true],
+                ["Premium Nutrition Guides", false, true],
+                ["Priority Support", false, true],
+                ["Ad-Free Experience", false, true],
+              ].map(([feature, free, premium]) => (
+                <tr key={feature as string} className="border-b border-border/50 last:border-0">
+                  <td className="p-4 text-foreground/80">{feature as string}</td>
+                  <td className="p-4 text-center">
+                    {free ? <Check className="mx-auto h-4 w-4 text-success" /> : <span className="text-muted-foreground">—</span>}
+                  </td>
+                  <td className="p-4 text-center">
+                    {premium ? <Check className="mx-auto h-4 w-4 text-accent" /> : <span className="text-muted-foreground">—</span>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </section>
+      </RevealSection>
+
       <RevealSection>
       <section className="border-t border-border bg-muted/30">
         <div className="container py-16 text-center">

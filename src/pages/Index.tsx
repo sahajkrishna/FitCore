@@ -115,13 +115,13 @@ const Index = () => {
               className="mt-8 font-heading text-4xl font-extrabold leading-[1.1] text-primary-foreground sm:text-5xl md:text-7xl opacity-0"
               style={{ animation: "reveal-up 0.8s ease-out 0.4s forwards" }}
             >
-              Build Your <span className="text-accent">Strongest Self</span> with FitCore
+              Transform Your <span className="text-accent">Fitness Journey</span> with FitCore
             </h1>
             <p
               className="mt-6 max-w-xl text-lg leading-relaxed text-primary-foreground/80 md:text-xl opacity-0"
               style={{ animation: "reveal-up 0.8s ease-out 0.6s forwards" }}
             >
-              Train smarter, stay consistent, and transform your fitness journey.
+              Expert workouts, smart nutrition, and personalized fitness plans — all in one platform.
             </p>
             <div
               className="mt-10 flex flex-wrap gap-4 opacity-0"
@@ -129,7 +129,7 @@ const Index = () => {
             >
               <Button variant="coral" size="lg" className="animate-pulse-glow" asChild>
                 <Link to="/workouts">
-                  Start Your Workout <ArrowRight className="ml-1 h-4 w-4" />
+                  Start Training <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
               <Button variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm" asChild>
