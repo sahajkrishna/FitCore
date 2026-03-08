@@ -169,9 +169,16 @@ const Dashboard = () => {
             <User className="h-8 w-8 text-accent" />
           </div>
           <div>
-            <h1 className="font-heading text-2xl font-bold text-foreground md:text-3xl">
-              {getGreeting()}, {displayName || "Athlete"} 👋
-            </h1>
+            <div className="flex items-center gap-2">
+              <h1 className="font-heading text-2xl font-bold text-foreground md:text-3xl">
+                {getGreeting()}, {displayName || "Athlete"} 👋
+              </h1>
+              {isPremiumProfile && (
+                <Badge className="bg-accent text-accent-foreground text-xs gap-1">
+                  <Crown className="h-3 w-3" /> Premium Member
+                </Badge>
+              )}
+            </div>
             <p className="text-muted-foreground mt-1">Ready to crush your fitness goals today?</p>
           </div>
         </div>
