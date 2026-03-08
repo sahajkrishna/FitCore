@@ -88,6 +88,16 @@ const Dashboard = () => {
       });
 
     supabase
+      .from("subscriptions")
+      .select("plan, status, expires_at, created_at, amount, currency")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .limit(1)
+      .then(({ data }) => {
+        if (data && data.length > 0) setSubscription(data[0] as SubscriptionInfo);
+      });
+
+    supabase
       .from("saved_workouts")
       .select("*")
       .eq("user_id", user.id)
