@@ -5,7 +5,7 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Heart, StretchHorizontal, CalendarDays, TrendingUp, Bookmark, Trash2, Crown } from "lucide-react";
+import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Heart, StretchHorizontal, CalendarDays, TrendingUp, Bookmark, Trash2, Crown, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useToast } from "@/hooks/use-toast";
@@ -61,6 +61,20 @@ interface SubscriptionInfo {
   currency: string;
 }
 
+interface ProgramProgress {
+  slug: string;
+  title: string;
+  total: number;
+  completed: number;
+  color: string;
+}
+
+const programDefs = [
+  { slug: "/programs/fat-loss", title: "Fat Loss Program", category: "fat-loss-program", total: 24, color: "bg-accent" },
+  { slug: "/programs/strength-builder", title: "Strength Builder", category: "strength-builder-program", total: 20, color: "bg-destructive" },
+  { slug: "/programs/30-day-challenge", title: "30 Day Challenge", category: "30-day-challenge", total: 30, color: "bg-success" },
+];
+
 const Dashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -72,6 +86,7 @@ const Dashboard = () => {
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [isPremiumProfile, setIsPremiumProfile] = useState(false);
   const [totalThisWeek, setTotalThisWeek] = useState(0);
+  const [programProgress, setProgramProgress] = useState<ProgramProgress[]>([]);
 
   useEffect(() => {
     if (!user) return;
@@ -142,6 +157,26 @@ const Dashboard = () => {
         }
         setWeeklyData(days.map((d) => ({ day: dayLabels[d.getDay()], count: counts[dayLabels[d.getDay()]] || 0 })));
       });
+
+    // Fetch program progress
+    Promise.all(
+      programDefs.map(async (prog) => {
+        const { data } = await supabase
+          .from("workout_progress")
+          .select("workout_name")
+          .eq("user_id", user.id)
+          .eq("category", prog.category);
+        return {
+          slug: prog.slug,
+          title: prog.title,
+          total: prog.total,
+          completed: data?.length || 0,
+          color: prog.color,
+        };
+      })
+    ).then((results) => {
+      setProgramProgress(results.filter((p) => p.completed > 0));
+    });
   }, [user]);
 
   const removeSaved = async (id: string, name: string) => {
@@ -224,6 +259,41 @@ const Dashboard = () => {
             </Card>
           ))}
         </section>
+
+        {/* Program Progress */}
+        {programProgress.length > 0 && (
+          <section>
+            <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+              <Target className="h-5 w-5 text-accent" /> Active Programs
+            </h2>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {programProgress.map((prog) => {
+                const pct = Math.round((prog.completed / prog.total) * 100);
+                return (
+                  <Link key={prog.slug} to={prog.slug} className="group">
+                    <Card className="border-border/60 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+                      <CardContent className="py-5 px-5">
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-heading text-sm font-bold text-foreground">{prog.title}</h3>
+                          <Badge variant="secondary" className="text-xs">{pct}%</Badge>
+                        </div>
+                        <div className="h-2 w-full rounded-full bg-muted">
+                          <div
+                            className={`h-full rounded-full ${prog.color} transition-all duration-700`}
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                        <p className="mt-2 text-xs text-muted-foreground">
+                          {prog.completed} of {prog.total} workouts completed
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                );
+              })}
+            </div>
+          </section>
+        )}
 
         {/* Workout Category Cards */}
         <section>
