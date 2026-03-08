@@ -354,8 +354,41 @@ const AiWorkoutGenerator = () => {
                 <><Sparkles className="h-5 w-5" /> Generate Workout Plan</>
               )}
             </Button>
-          </CardContent>
+           </CardContent>
         </Card>
+
+        {/* Loading state */}
+        {loading && (
+          <Card className="mx-auto mt-8 max-w-2xl border-0 shadow-[var(--shadow-card-hover)] animate-scale-in overflow-hidden">
+            <CardContent className="flex flex-col items-center gap-5 py-12 px-8">
+              <div className="relative flex h-20 w-20 items-center justify-center">
+                <div className="absolute inset-0 rounded-full border-4 border-muted" />
+                <div className="absolute inset-0 rounded-full border-4 border-accent border-t-transparent animate-spin" />
+                <Dumbbell className="h-8 w-8 text-accent animate-pulse" />
+              </div>
+              <p className="text-center font-heading text-lg font-semibold text-foreground animate-fade-in" key={loadingMsg}>
+                {loadingMsg}
+              </p>
+              <div className="w-48 h-1.5 rounded-full bg-muted overflow-hidden">
+                <div className="h-full bg-gradient-to-r from-accent to-primary rounded-full animate-[loading-bar_2.5s_ease-in-out_infinite]" />
+              </div>
+              <p className="text-xs text-muted-foreground">This may take a few moments</p>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Success banner */}
+        {showSuccess && plan && (
+          <div className="mx-auto mt-8 max-w-2xl animate-scale-in">
+            <div className="flex items-center gap-3 rounded-xl bg-success/10 border border-success/20 px-5 py-4">
+              <PartyPopper className="h-6 w-6 text-success shrink-0" />
+              <div>
+                <p className="font-heading text-sm font-bold text-foreground">Your workout plan is ready! 🎉</p>
+                <p className="text-xs text-muted-foreground">Scroll down to see your personalized {plan.days?.filter(d => !d.isRestDay).length}-day training program.</p>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* Result */}
         {plan && (
