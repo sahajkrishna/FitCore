@@ -45,13 +45,24 @@ const categoryColor = (cat: string) => {
   }
 };
 
+interface SubscriptionInfo {
+  plan: string;
+  status: string;
+  expires_at: string;
+  created_at: string;
+  amount: number;
+  currency: string;
+}
+
 const Dashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isPremium } = usePremiumStatus();
   const [displayName, setDisplayName] = useState("");
   const [recentWorkouts, setRecentWorkouts] = useState<WorkoutEntry[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<SavedWorkout[]>([]);
   const [weeklyData, setWeeklyData] = useState<{ day: string; count: number }[]>([]);
+  const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [totalThisWeek, setTotalThisWeek] = useState(0);
 
   useEffect(() => {
