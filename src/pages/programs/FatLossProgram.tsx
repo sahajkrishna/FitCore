@@ -212,7 +212,8 @@ const FatLossProgram = () => {
       toast({ title: "Error", description: "Could not log workout.", variant: "destructive" });
     } else {
       setCompleted((prev) => new Set(prev).add(name));
-      toast({ title: "Workout completed! 🔥", description: `${name} marked as done.` });
+      setLastCompleted(name);
+      setCongratsOpen(true);
     }
   };
 
