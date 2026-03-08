@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PageHero from "@/components/PageHero";
+import RevealSection from "@/components/RevealSection";
 import heroBlogImg from "@/assets/hero-blog.jpg";
 
 const posts = [
