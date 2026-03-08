@@ -9,6 +9,7 @@ const links = [
   { to: "/workouts", label: "Workouts" },
   { to: "/nutrition", label: "Nutrition" },
   { to: "/blog", label: "Blog" },
+  { to: "/pricing", label: "Pricing" },
 ];
 
 const Navbar = () => {
