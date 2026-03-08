@@ -31,6 +31,7 @@ const programs = [
   },
   {
     title: "30 Day Fitness Challenge",
+    slug: "/programs/30-day-challenge",
     image: challengeImg,
     duration: "4 Weeks",
     difficulty: "Beginner",
