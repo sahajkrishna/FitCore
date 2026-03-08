@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Workouts from "./pages/Workouts";
 import Nutrition from "./pages/Nutrition";
+import NutritionGuide from "./pages/NutritionGuide";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import Login from "./pages/Login";
