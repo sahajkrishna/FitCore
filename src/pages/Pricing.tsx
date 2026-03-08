@@ -154,19 +154,13 @@ const Pricing = () => {
 
   return (
     <Layout>
-      <section className="bg-primary">
-        <div className="container py-16 md:py-24 text-center">
-          <Badge variant="secondary" className="mb-4 text-xs font-medium">
-            Simple Pricing
-          </Badge>
-          <h1 className="font-heading text-3xl font-extrabold text-primary-foreground md:text-5xl">
-            Choose Your Plan
-          </h1>
-          <p className="mx-auto mt-4 max-w-lg text-primary-foreground/70 text-base md:text-lg">
-            Start free and upgrade when you're ready. No hidden fees, cancel anytime.
-          </p>
-        </div>
-      </section>
+      <PageHero
+        image={heroPricingImg}
+        headline="Unlock Your Full Fitness Potential"
+        description="Upgrade to premium and access advanced workout programs and personalized fitness tools."
+        ctaLabel="Upgrade to Premium"
+        ctaHref="#plans"
+      />
 
       <section className="container -mt-10 pb-20 md:-mt-14">
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">

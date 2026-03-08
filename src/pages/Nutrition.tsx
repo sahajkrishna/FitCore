@@ -46,12 +46,13 @@ const Nutrition = () => {
 
   return (
     <Layout>
-      <section className="bg-primary">
-        <div className="container py-16 md:py-20">
-          <h1 className="font-heading text-3xl font-extrabold text-primary-foreground md:text-5xl">Nutrition Guides</h1>
-          <p className="mt-4 max-w-lg text-primary-foreground/70">Beginner-friendly nutrition articles to fuel your fitness journey. No fads — just science-backed guidance.</p>
-        </div>
-      </section>
+      <PageHero
+        image={heroNutritionImg}
+        headline="Fuel Your Body Right"
+        description="Learn nutrition strategies that support strength, energy, and recovery."
+        ctaLabel="Explore Nutrition Guides"
+        ctaHref="#guides"
+      />
 
       <section className="container py-16 md:py-20">
         <div className="grid gap-8">
