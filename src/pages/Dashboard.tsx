@@ -5,7 +5,7 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Heart, StretchHorizontal, CalendarDays, TrendingUp, Bookmark, Trash2, Crown } from "lucide-react";
+import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Heart, StretchHorizontal, CalendarDays, TrendingUp, Bookmark, Trash2, Crown, Target } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useToast } from "@/hooks/use-toast";
