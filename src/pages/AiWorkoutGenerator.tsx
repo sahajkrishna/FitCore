@@ -436,6 +436,8 @@ const AiWorkoutGenerator = () => {
             </div>
           </div>
         )}
+        </>
+        )}
       </section>
     </Layout>
   );
