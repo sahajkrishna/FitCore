@@ -79,6 +79,31 @@ const Index = () => {
 
   return (
     <Layout>
+      {/* Floating background fitness icons */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 hidden md:block">
+        {[
+          { Icon: Dumbbell, x: "5%", y: "25%", size: 22, dur: 14, del: 0 },
+          { Icon: Heart, x: "92%", y: "35%", size: 18, dur: 12, del: 2 },
+          { Icon: Footprints, x: "15%", y: "60%", size: 20, dur: 16, del: 1 },
+          { Icon: PersonStanding, x: "88%", y: "70%", size: 24, dur: 13, del: 3 },
+          { Icon: Activity, x: "50%", y: "85%", size: 16, dur: 15, del: 4 },
+          { Icon: Flame, x: "75%", y: "15%", size: 18, dur: 11, del: 1.5 },
+          { Icon: Zap, x: "30%", y: "40%", size: 14, dur: 17, del: 5 },
+        ].map((item, i) => (
+          <div
+            key={i}
+            className="absolute text-primary/[0.04]"
+            style={{
+              left: item.x,
+              top: item.y,
+              animation: `float-icon ${item.dur}s ease-in-out ${item.del}s infinite`,
+            }}
+          >
+            <item.Icon size={item.size} strokeWidth={1.2} />
+          </div>
+        ))}
+      </div>
+
       {/* Hero with parallax */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         <img
