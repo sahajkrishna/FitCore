@@ -141,6 +141,15 @@ const Dashboard = () => {
         if (data) setSavedWorkouts(data as SavedWorkout[]);
       });
 
+    supabase
+      .from("ai_workout_plans" as any)
+      .select("*")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
+      .then(({ data }: any) => {
+        if (data) setAiPlans(data as AiPlan[]);
+      });
+
     const days = Array.from({ length: 7 }, (_, i) => {
       const d = new Date();
       d.setDate(d.getDate() - (6 - i));
