@@ -178,6 +178,9 @@ const Workouts = () => {
         </div>
       </section>
 
+      {/* Featured Programs */}
+      <FeaturedPrograms />
+
       <section className="container py-16 md:py-20">
         {categories.map((cat) => (
           <div key={cat.name} className="mb-16 last:mb-0">
