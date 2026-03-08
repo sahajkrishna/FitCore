@@ -326,7 +326,7 @@ const Dashboard = () => {
           </section>
         )}
 
-        {/* Workout Category Cards */}
+        <RevealSection delay={100}>
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Explore Workouts</h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
