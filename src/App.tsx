@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Workouts from "./pages/Workouts";
 import Nutrition from "./pages/Nutrition";
 import Blog from "./pages/Blog";
+import BlogArticle from "./pages/BlogArticle";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
