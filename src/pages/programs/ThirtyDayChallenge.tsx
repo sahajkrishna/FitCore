@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import ProgramWorkoutCard, { type ProgramWeek } from "@/components/ProgramWorkoutCard";
 import WorkoutCongrats from "@/components/WorkoutCongrats";
+import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import challengeImg from "@/assets/programs/30-day-challenge.jpg";
 
 const weeks: ProgramWeek[] = [
