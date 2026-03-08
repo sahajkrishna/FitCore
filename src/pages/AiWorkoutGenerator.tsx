@@ -281,6 +281,12 @@ const AiWorkoutGenerator = () => {
 
       {/* Form */}
       <section className="container -mt-10 relative z-20 pb-20">
+        {!premiumLoading && !isPremium ? (
+          <div className="mx-auto max-w-2xl animate-scale-in">
+            <PremiumGate message="Upgrade to Premium to unlock AI personalized workout plans." />
+          </div>
+        ) : (
+        <>
         <Card className="mx-auto max-w-2xl shadow-[var(--shadow-card-hover)] border-0 animate-scale-in">
           <CardContent className="space-y-8 p-8">
             {/* Goal */}
