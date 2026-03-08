@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import PageHero from "@/components/PageHero";
+import heroBlogImg from "@/assets/hero-blog.jpg";
 
 const posts = [
   { title: "5 Compound Exercises Every Beginner Should Master", category: "Training", date: "Mar 5, 2026", readTime: "6 min", excerpt: "Compound movements recruit multiple muscle groups simultaneously, making them the most efficient way to build strength and muscle as a beginner." },
