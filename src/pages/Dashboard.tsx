@@ -170,23 +170,55 @@ const Dashboard = () => {
       <div className="container py-10 md:py-16 space-y-10">
         {/* Hero Banner */}
         <section className="relative overflow-hidden rounded-2xl shadow-lg">
-          <img src={heroBanner} alt="Modern gym with warm lighting" className="w-full h-48 sm:h-64 md:h-72 object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-transparent" />
-          <div className="absolute inset-0 flex items-center px-8 md:px-12">
-            <div>
-              <h1 className="font-heading text-2xl md:text-4xl font-extrabold text-primary-foreground drop-shadow-md">
-                {getGreeting()}, {displayName || "Athlete"} 👋
+          <img src={heroBanner} alt="Modern gym with warm lighting" className="w-full h-56 sm:h-72 md:h-80 object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/60 to-primary/20" />
+          <div className="absolute inset-0 flex items-center px-8 md:px-14">
+            <div className="space-y-3">
+              <p className="text-xs md:text-sm font-semibold tracking-[0.2em] uppercase text-accent">
+                {getGreeting()}, {displayName || "Athlete"}
+              </p>
+              <h1 className="font-heading text-3xl md:text-5xl font-extrabold text-primary-foreground drop-shadow-md leading-tight">
+                Train Smart<br />with <span className="text-accent">FitCore</span>
               </h1>
-              <p className="mt-2 text-sm md:text-base text-primary-foreground/80 max-w-md">
+              <p className="text-sm md:text-base text-primary-foreground/70 max-w-md">
                 Push your limits, stay consistent, and transform your body. Your journey starts here.
               </p>
-              {isPremiumProfile && (
-                <Badge className="mt-3 bg-accent text-accent-foreground text-xs gap-1">
-                  <Crown className="h-3 w-3" /> Premium Member
-                </Badge>
-              )}
+              <div className="flex items-center gap-3 pt-1">
+                {isPremiumProfile && (
+                  <Badge className="bg-accent text-accent-foreground text-xs gap-1">
+                    <Crown className="h-3 w-3" /> Premium Member
+                  </Badge>
+                )}
+                <Link to="/workouts">
+                  <Button variant="coral" size="sm" className="gap-1.5">
+                    Start Training <ArrowRight className="h-3.5 w-3.5" />
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
+        </section>
+
+        {/* Quick Stats */}
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { icon: Flame, label: "This Week", value: `${totalThisWeek} workout${totalThisWeek !== 1 ? "s" : ""}`, color: "text-accent", bg: "bg-accent/10" },
+            { icon: Dumbbell, label: "Strength", value: `${recentWorkouts.filter(w => w.category === "strength").length} sessions`, color: "text-accent", bg: "bg-accent/10" },
+            { icon: Heart, label: "Cardio", value: `${recentWorkouts.filter(w => w.category === "cardio").length} sessions`, color: "text-destructive", bg: "bg-destructive/10" },
+            { icon: StretchHorizontal, label: "Flexibility", value: `${recentWorkouts.filter(w => w.category === "flexibility").length} sessions`, color: "text-success", bg: "bg-success/10" },
+          ].map((stat) => (
+            <Card key={stat.label} className="border-border/60">
+              <CardContent className="flex items-center gap-3 py-4 px-4">
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${stat.bg}`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color}`} />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">{stat.label}</p>
+                  <p className="font-heading text-sm font-bold text-foreground">{stat.value}</p>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
         </section>
 
         {/* Workout Category Cards */}
