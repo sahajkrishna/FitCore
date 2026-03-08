@@ -289,6 +289,7 @@ const Dashboard = () => {
             </Card>
           ))}
         </section>
+        </RevealSection>
 
         {/* Program Progress */}
         {programProgress.length > 0 && (
