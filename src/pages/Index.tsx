@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import { ArrowRight, Dumbbell, Heart, Zap, Target, Users, TrendingUp, Quote, Flame, Timer, Activity } from "lucide-react";
 import TransformationResults from "@/components/TransformationResults";
+import RevealSection from "@/components/RevealSection";
 
 import heroImg from "@/assets/hero-dashboard.jpg";
 import strengthImg from "@/assets/category-strength.jpg";
@@ -144,6 +145,36 @@ const Index = () => {
 
         {/* Bottom fade */}
         <div className="absolute -bottom-1 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
+      </section>
+
+
+      {/* How FitCore Works */}
+      <section className="bg-secondary/30 py-20 md:py-28">
+        <div className="container">
+          <div className="mx-auto max-w-xl text-center mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-accent">Simple & Effective</span>
+            <h2 className="mt-3 font-heading text-3xl font-bold text-primary md:text-4xl">How FitCore Works</h2>
+            <p className="mt-4 text-muted-foreground">Three simple steps to transform your fitness journey.</p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              { icon: Dumbbell, step: "01", title: "Explore Workouts", desc: "Browse strength, cardio, and flexibility programs designed by fitness experts." },
+              { icon: TrendingUp, step: "02", title: "Track Progress", desc: "Mark workouts completed and monitor your progress over time." },
+              { icon: Target, step: "03", title: "Stay Consistent", desc: "Build habits, hit your goals, and improve your health every day." },
+            ].map((item, i) => (
+              <RevealSection key={item.step} delay={i * 150}>
+                <div className="group relative rounded-2xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-2 text-center">
+                  <span className="absolute top-4 right-5 font-heading text-5xl font-bold text-accent/10 select-none">{item.step}</span>
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-accent/10 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent/15">
+                    <item.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 font-heading text-lg font-bold text-primary">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* Motivational Quote */}
