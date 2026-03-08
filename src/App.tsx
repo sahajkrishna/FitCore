@@ -13,6 +13,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Pricing from "./pages/Pricing";
+import FatLossProgram from "./pages/programs/FatLossProgram";
+import StrengthBuilderProgram from "./pages/programs/StrengthBuilderProgram";
+import ThirtyDayChallenge from "./pages/programs/ThirtyDayChallenge";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
