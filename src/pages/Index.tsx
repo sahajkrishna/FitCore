@@ -130,8 +130,13 @@ const Index = () => {
                   Start Training <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm" asChild>
-                <Link to="/workouts">Explore Workouts</Link>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm"
+                onClick={() => document.getElementById("workout-categories")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Explore Workouts
               </Button>
             </div>
           </div>
@@ -178,7 +183,7 @@ const Index = () => {
       </section>
 
       {/* Workout Categories */}
-      <section ref={cats.ref} className="relative overflow-hidden bg-background py-20 md:py-28">
+      <section id="workout-categories" ref={cats.ref} className="relative overflow-hidden bg-background py-20 md:py-28 scroll-mt-20">
         {/* Animated gradient blobs */}
         <div className="absolute right-0 top-20 h-72 w-72 rounded-full bg-accent/5 blur-3xl" style={{ animation: "float-blob 12s ease-in-out infinite" }} />
         <div className="absolute -left-20 bottom-20 h-56 w-56 rounded-full bg-success/5 blur-3xl" style={{ animation: "float-blob 9s ease-in-out 3s infinite" }} />
