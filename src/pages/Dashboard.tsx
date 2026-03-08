@@ -353,8 +353,7 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
-
-        {/* Quick Access */}
+        </RevealSection>
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Quick Access</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
