@@ -130,8 +130,13 @@ const Index = () => {
                   Start Training <ArrowRight className="ml-1 h-4 w-4" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm" asChild>
-                <Link to="/workouts">Explore Workouts</Link>
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 backdrop-blur-sm"
+                onClick={() => document.getElementById("workout-categories")?.scrollIntoView({ behavior: "smooth" })}
+              >
+                Explore Workouts
               </Button>
             </div>
           </div>
