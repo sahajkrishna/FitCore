@@ -207,6 +207,14 @@ const Dashboard = () => {
     }
   };
 
+  const removeAiPlan = async (id: string) => {
+    const { error } = await supabase.from("ai_workout_plans" as any).delete().eq("id", id);
+    if (!error) {
+      setAiPlans((prev) => prev.filter((p) => p.id !== id));
+      toast({ title: "Plan removed" });
+    }
+  };
+
   const quickLinks = [
     { icon: Dumbbell, title: "Workout Library", desc: "Browse exercises & programs", to: "/workouts", color: "bg-accent/10 text-accent" },
     { icon: Apple, title: "Nutrition Guides", desc: "Meal plans & tips", to: "/nutrition", color: "bg-success/10 text-success" },
