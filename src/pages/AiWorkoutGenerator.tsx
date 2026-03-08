@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   Sparkles, Dumbbell, Flame, Zap, Target, Calendar, TrendingUp,
-  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check,
+  Loader2, Clock, Coffee, Trophy, ChevronDown, ChevronUp, Save, Check, PartyPopper,
 } from "lucide-react";
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
