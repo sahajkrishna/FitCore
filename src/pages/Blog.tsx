@@ -2,6 +2,7 @@ import Layout from "@/components/Layout";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import PageHero from "@/components/PageHero";
+import RevealSection from "@/components/RevealSection";
 import heroBlogImg from "@/assets/hero-blog.jpg";
 
 const posts = [
@@ -30,8 +31,9 @@ const Blog = () => (
 
     <section className="container py-16 md:py-20">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {posts.map((p) => (
-          <article key={p.title} className="group flex flex-col rounded-xl bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+        {posts.map((p, i) => (
+          <RevealSection key={p.title} delay={i * 100}>
+          <article className="group flex flex-col rounded-xl bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 h-full">
             <div className="flex-1 p-7">
               <Badge className={`${catColor(p.category)} border-0 text-xs font-semibold`}>{p.category}</Badge>
               <h2 className="mt-4 font-heading text-lg font-bold leading-snug text-primary">{p.title}</h2>
@@ -47,6 +49,7 @@ const Blog = () => (
               </span>
             </div>
           </article>
+          </RevealSection>
         ))}
       </div>
     </section>

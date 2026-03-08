@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, Zap, Dumbbell, Loader2 } from "lucide-react";
 import PageHero from "@/components/PageHero";
+import RevealSection from "@/components/RevealSection";
 import heroPricingImg from "@/assets/hero-pricing.jpg";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
@@ -164,9 +165,9 @@ const Pricing = () => {
 
       <section className="container -mt-10 pb-20 md:-mt-14">
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-          {plans.map((plan) => (
+          {plans.map((plan, i) => (
+            <RevealSection key={plan.name} delay={i * 150}>
             <div
-              key={plan.name}
               className={`relative flex flex-col rounded-2xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover ${
                 plan.highlighted
                   ? "ring-2 ring-accent scale-[1.02] md:scale-105"
@@ -237,10 +238,12 @@ const Pricing = () => {
                 </Button>
               )}
             </div>
+            </RevealSection>
           ))}
         </div>
       </section>
 
+      <RevealSection>
       <section className="border-t border-border bg-muted/30">
         <div className="container py-16 text-center">
           <h2 className="font-heading text-xl font-bold text-foreground mb-2">
@@ -251,6 +254,7 @@ const Pricing = () => {
           </p>
         </div>
       </section>
+      </RevealSection>
     </Layout>
   );
 };
