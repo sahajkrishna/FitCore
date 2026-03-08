@@ -366,42 +366,45 @@ const Dashboard = () => {
               </Button>
             </Link>
           </div>
-          <Card className="border-border/60">
-            <CardContent className="p-0 divide-y divide-border">
-              {savedWorkouts.length === 0 ? (
-                <p className="text-sm text-muted-foreground text-center py-8">
+          {savedWorkouts.length === 0 ? (
+            <Card className="border-border/60">
+              <CardContent className="py-10 text-center">
+                <Bookmark className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">
                   No saved workouts yet. Save workouts from the <Link to="/workouts" className="text-accent underline">Workout Library</Link>!
                 </p>
-              ) : (
-                savedWorkouts.map((w) => {
-                  const Icon = categoryIcon(w.category);
-                  return (
-                    <div key={w.id} className="flex items-center justify-between px-5 py-4 hover:bg-muted/40 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted/60">
-                          <Icon className={`h-4 w-4 ${categoryColor(w.category)}`} />
-                        </div>
-                        <div>
-                          <p className="text-sm font-medium text-foreground">{w.workout_name}</p>
-                          <p className="text-xs text-muted-foreground capitalize">
-                            {w.category} · Saved {new Date(w.saved_at).toLocaleDateString()}
-                          </p>
-                        </div>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {savedWorkouts.map((w) => {
+                const Icon = categoryIcon(w.category);
+                return (
+                  <Card key={w.id} className="border-border/60 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+                    <CardContent className="flex items-start gap-4 py-5 px-5">
+                      <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl ${w.category === "strength" ? "bg-accent/10" : w.category === "cardio" ? "bg-destructive/10" : "bg-success/10"}`}>
+                        <Icon className={`h-5 w-5 ${categoryColor(w.category)}`} />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-semibold text-foreground truncate">{w.workout_name}</p>
+                        <p className="text-xs text-muted-foreground capitalize mt-0.5">
+                          {w.category} · Saved {new Date(w.saved_at).toLocaleDateString()}
+                        </p>
                       </div>
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        className="h-8 w-8 shrink-0 text-muted-foreground hover:text-destructive"
                         onClick={() => removeSaved(w.id, w.workout_name)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
-                    </div>
-                  );
-                })
-              )}
-            </CardContent>
-          </Card>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </div>
+          )}
         </section>
 
         {/* Workout History */}
