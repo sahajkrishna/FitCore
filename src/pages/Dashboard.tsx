@@ -230,7 +230,7 @@ const Dashboard = () => {
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">Member since {new Date(subscription.created_at).toLocaleDateString()}</p>
+                  <p className="text-xs text-muted-foreground">Member since {new Date(subscription.subscription_start_date).toLocaleDateString()}</p>
                 </div>
               ) : (
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
