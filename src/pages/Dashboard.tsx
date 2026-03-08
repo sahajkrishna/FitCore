@@ -11,6 +11,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import PremiumGate from "@/components/PremiumGate";
+import heroBanner from "@/assets/hero-dashboard.jpg";
+import categoryStrength from "@/assets/category-strength.jpg";
+import categoryCardio from "@/assets/category-cardio.jpg";
+import categoryFlexibility from "@/assets/category-flexibility.jpg";
 
 interface WorkoutEntry {
   id: string;
