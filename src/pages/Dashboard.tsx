@@ -11,6 +11,10 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import PremiumGate from "@/components/PremiumGate";
+import heroBanner from "@/assets/hero-dashboard.jpg";
+import categoryStrength from "@/assets/category-strength.jpg";
+import categoryCardio from "@/assets/category-cardio.jpg";
+import categoryFlexibility from "@/assets/category-flexibility.jpg";
 
 interface WorkoutEntry {
   id: string;
@@ -164,25 +168,54 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className="container py-10 md:py-16 space-y-10">
-        {/* Welcome */}
-        <div className="flex items-center gap-5">
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-accent/10 shadow-sm">
-            <User className="h-8 w-8 text-accent" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="font-heading text-2xl font-bold text-foreground md:text-3xl">
+        {/* Hero Banner */}
+        <section className="relative overflow-hidden rounded-2xl shadow-lg">
+          <img src={heroBanner} alt="Modern gym with warm lighting" className="w-full h-48 sm:h-64 md:h-72 object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/80 via-primary/50 to-transparent" />
+          <div className="absolute inset-0 flex items-center px-8 md:px-12">
+            <div>
+              <h1 className="font-heading text-2xl md:text-4xl font-extrabold text-primary-foreground drop-shadow-md">
                 {getGreeting()}, {displayName || "Athlete"} 👋
               </h1>
+              <p className="mt-2 text-sm md:text-base text-primary-foreground/80 max-w-md">
+                Push your limits, stay consistent, and transform your body. Your journey starts here.
+              </p>
               {isPremiumProfile && (
-                <Badge className="bg-accent text-accent-foreground text-xs gap-1">
+                <Badge className="mt-3 bg-accent text-accent-foreground text-xs gap-1">
                   <Crown className="h-3 w-3" /> Premium Member
                 </Badge>
               )}
             </div>
-            <p className="text-muted-foreground mt-1">Ready to crush your fitness goals today?</p>
           </div>
-        </div>
+        </section>
+
+        {/* Workout Category Cards */}
+        <section>
+          <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Explore Workouts</h2>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              { img: categoryStrength, title: "Strength Training", desc: "Build muscle and power with barbell, dumbbell, and bodyweight exercises.", to: "/workouts", icon: Dumbbell, color: "text-accent" },
+              { img: categoryCardio, title: "Cardio Workouts", desc: "Boost endurance and burn calories with running, cycling, and HIIT.", to: "/workouts", icon: Heart, color: "text-destructive" },
+              { img: categoryFlexibility, title: "Flexibility & Mobility", desc: "Improve range of motion with yoga, stretching, and recovery flows.", to: "/workouts", icon: StretchHorizontal, color: "text-success" },
+            ].map((cat) => (
+              <Link key={cat.title} to={cat.to} className="group">
+                <Card className="overflow-hidden border-border/60 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+                  <div className="relative h-40 overflow-hidden">
+                    <img src={cat.img} alt={cat.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card/90 via-card/30 to-transparent" />
+                    <div className="absolute bottom-3 left-4 flex items-center gap-2">
+                      <cat.icon className={`h-5 w-5 ${cat.color}`} />
+                      <span className="font-heading text-base font-bold text-foreground">{cat.title}</span>
+                    </div>
+                  </div>
+                  <CardContent className="pt-3 pb-4">
+                    <p className="text-sm text-muted-foreground leading-relaxed">{cat.desc}</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </section>
 
         {/* Quick Access */}
         <section>
