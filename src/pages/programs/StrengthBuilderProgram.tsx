@@ -183,6 +183,8 @@ const StrengthBuilderProgram = () => {
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<string | null>(null);
   const [activeWeek, setActiveWeek] = useState(0);
+  const [congratsOpen, setCongratsOpen] = useState(false);
+  const [lastCompleted, setLastCompleted] = useState("");
 
   useEffect(() => {
     if (!user) return;
