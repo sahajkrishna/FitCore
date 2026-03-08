@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         amount: 49900, // ₹499 in paise
         currency: "INR",
-        receipt: `fitcore_${userId}_${Date.now()}`,
+        receipt: `fc_${Date.now()}`,
         notes: { user_id: userId, plan: "premium" },
       }),
     });
