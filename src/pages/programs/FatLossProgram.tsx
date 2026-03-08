@@ -1,61 +1,177 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Circle, Clock, Flame, ArrowLeft, Loader2, Dumbbell, Zap, Heart } from "lucide-react";
+import { Clock, ArrowLeft, Dumbbell, Zap, Heart, StretchHorizontal, Moon } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import ProgramWorkoutCard, { type ProgramWeek } from "@/components/ProgramWorkoutCard";
 import fatLossImg from "@/assets/programs/fat-loss.jpg";
 
-const weeks = [
+const weeks: ProgramWeek[] = [
   {
     week: 1,
     title: "Foundation Week",
     workouts: [
-      { day: "Monday", name: "HIIT Cardio Blast", duration: "30 min", calories: "350", icon: Heart },
-      { day: "Tuesday", name: "Upper Body Circuit", duration: "35 min", calories: "280", icon: Dumbbell },
-      { day: "Wednesday", name: "Active Recovery Walk", duration: "20 min", calories: "120", icon: Heart },
-      { day: "Thursday", name: "Lower Body Burn", duration: "40 min", calories: "320", icon: Dumbbell },
-      { day: "Friday", name: "Full Body HIIT", duration: "30 min", calories: "380", icon: Zap },
-      { day: "Saturday", name: "Core & Cardio", duration: "25 min", calories: "250", icon: Heart },
+      {
+        day: "Day 1", name: "Upper Body Burn", focus: "Upper Body", duration: "35 min", calories: "280",
+        difficulty: "Moderate", icon: Dumbbell,
+        exercises: ["Push-ups – 3×15", "Dumbbell Rows – 3×12", "Shoulder Press – 3×10", "Tricep Dips – 3×12", "Plank Hold – 3×30s"],
+      },
+      {
+        day: "Day 2", name: "HIIT Cardio Blast", focus: "Cardio", duration: "30 min", calories: "350",
+        difficulty: "Hard", icon: Heart,
+        exercises: ["Burpees – 4×10", "Mountain Climbers – 4×20", "Jump Squats – 4×15", "High Knees – 4×30s", "Box Jumps – 3×10"],
+      },
+      {
+        day: "Day 3", name: "Rest & Recover", focus: "Recovery", duration: "—", calories: "0",
+        difficulty: "Easy", icon: Moon, isRest: true,
+        exercises: ["Light stretching, foam rolling, and hydration. Let your muscles recover."],
+      },
+      {
+        day: "Day 4", name: "Lower Body Burn", focus: "Lower Body", duration: "40 min", calories: "320",
+        difficulty: "Moderate", icon: Dumbbell,
+        exercises: ["Goblet Squats – 4×12", "Walking Lunges – 3×14 each", "Leg Press – 3×12", "Calf Raises – 3×20", "Glute Bridges – 3×15"],
+      },
+      {
+        day: "Day 5", name: "Core Crusher", focus: "Core Training", duration: "25 min", calories: "200",
+        difficulty: "Moderate", icon: Zap,
+        exercises: ["Bicycle Crunches – 3×20", "Russian Twists – 3×20", "Leg Raises – 3×15", "Dead Bug – 3×12 each", "Plank – 3×45s"],
+      },
+      {
+        day: "Day 6", name: "Full Body Circuit", focus: "Full Body", duration: "40 min", calories: "380",
+        difficulty: "Hard", icon: Zap,
+        exercises: ["Kettlebell Swings – 4×15", "Push-ups – 3×15", "Squat Jumps – 3×12", "Renegade Rows – 3×10", "Burpees – 3×10"],
+      },
+      {
+        day: "Day 7", name: "Active Recovery", focus: "Recovery", duration: "20 min", calories: "100",
+        difficulty: "Easy", icon: StretchHorizontal, isRest: true,
+        exercises: ["Light yoga flow, gentle stretching, and a 15-minute walk. Focus on breathing."],
+      },
     ],
   },
   {
     week: 2,
     title: "Ramp Up",
     workouts: [
-      { day: "Monday", name: "Tabata Intervals", duration: "25 min", calories: "320", icon: Zap },
-      { day: "Tuesday", name: "Push-Pull Circuit", duration: "40 min", calories: "300", icon: Dumbbell },
-      { day: "Wednesday", name: "Steady-State Cardio", duration: "35 min", calories: "280", icon: Heart },
-      { day: "Thursday", name: "Metabolic Legs", duration: "40 min", calories: "360", icon: Dumbbell },
-      { day: "Friday", name: "AMRAP Challenge", duration: "30 min", calories: "400", icon: Zap },
-      { day: "Saturday", name: "Yoga & Stretch", duration: "30 min", calories: "100", icon: Heart },
+      {
+        day: "Day 1", name: "Push-Pull Power", focus: "Upper Body", duration: "40 min", calories: "300",
+        difficulty: "Moderate", icon: Dumbbell,
+        exercises: ["Bench Press – 3×12", "Bent-Over Rows – 3×12", "Lateral Raises – 3×15", "Bicep Curls – 3×12", "Skull Crushers – 3×12"],
+      },
+      {
+        day: "Day 2", name: "Tabata Intervals", focus: "Cardio", duration: "25 min", calories: "320",
+        difficulty: "Hard", icon: Heart,
+        exercises: ["Sprint Intervals – 8×20s/10s", "Jumping Jacks – 4×30s", "Squat Thrusters – 4×12", "Battle Ropes – 4×20s"],
+      },
+      {
+        day: "Day 3", name: "Rest Day", focus: "Recovery", duration: "—", calories: "0",
+        difficulty: "Easy", icon: Moon, isRest: true,
+        exercises: ["Rest and recharge. Prioritize sleep, nutrition, and hydration."],
+      },
+      {
+        day: "Day 4", name: "Metabolic Legs", focus: "Lower Body", duration: "40 min", calories: "360",
+        difficulty: "Hard", icon: Dumbbell,
+        exercises: ["Barbell Squats – 4×10", "Romanian Deadlifts – 3×12", "Step-Ups – 3×12 each", "Leg Curls – 3×15", "Wall Sit – 3×45s"],
+      },
+      {
+        day: "Day 5", name: "Core & Abs", focus: "Core Training", duration: "25 min", calories: "220",
+        difficulty: "Moderate", icon: Zap,
+        exercises: ["Hanging Leg Raises – 3×12", "Cable Woodchops – 3×12 each", "Ab Wheel – 3×10", "Side Plank – 3×30s each", "Flutter Kicks – 3×20"],
+      },
+      {
+        day: "Day 6", name: "AMRAP Challenge", focus: "Full Body", duration: "35 min", calories: "400",
+        difficulty: "Hard", icon: Zap,
+        exercises: ["Thrusters – max reps in 1 min", "Pull-Ups – max reps", "Box Jumps – max reps in 1 min", "Push-Ups – max reps", "Repeat 4 rounds"],
+      },
+      {
+        day: "Day 7", name: "Yoga & Stretch", focus: "Recovery", duration: "30 min", calories: "80",
+        difficulty: "Easy", icon: StretchHorizontal, isRest: true,
+        exercises: ["Full-body yoga flow with emphasis on hip openers and hamstring stretches."],
+      },
     ],
   },
   {
     week: 3,
     title: "Peak Intensity",
     workouts: [
-      { day: "Monday", name: "Sprint Intervals", duration: "25 min", calories: "380", icon: Zap },
-      { day: "Tuesday", name: "Superset Upper Body", duration: "40 min", calories: "320", icon: Dumbbell },
-      { day: "Wednesday", name: "Recovery Cardio", duration: "25 min", calories: "150", icon: Heart },
-      { day: "Thursday", name: "Plyometric Legs", duration: "35 min", calories: "400", icon: Zap },
-      { day: "Friday", name: "Full Body Burner", duration: "35 min", calories: "420", icon: Zap },
-      { day: "Saturday", name: "Core Finisher", duration: "20 min", calories: "180", icon: Dumbbell },
+      {
+        day: "Day 1", name: "Superset Upper Body", focus: "Upper Body", duration: "40 min", calories: "320",
+        difficulty: "Hard", icon: Dumbbell,
+        exercises: ["Chest Press + Rows superset – 4×10", "Shoulder Press + Face Pulls – 3×12", "Dips + Curls superset – 3×12", "Diamond Push-Ups – 3×10"],
+      },
+      {
+        day: "Day 2", name: "Sprint Intervals", focus: "Cardio", duration: "25 min", calories: "380",
+        difficulty: "Hard", icon: Heart,
+        exercises: ["400m Sprints – 6 sets", "Recovery Walk – 90s between", "Stair Climbs – 4×1 min", "Cooldown Jog – 5 min"],
+      },
+      {
+        day: "Day 3", name: "Recovery Day", focus: "Recovery", duration: "—", calories: "0",
+        difficulty: "Easy", icon: Moon, isRest: true,
+        exercises: ["Complete rest or light mobility work. Foam roll any tight areas."],
+      },
+      {
+        day: "Day 4", name: "Plyometric Legs", focus: "Lower Body", duration: "35 min", calories: "400",
+        difficulty: "Hard", icon: Dumbbell,
+        exercises: ["Jump Squats – 4×12", "Lateral Bounds – 3×10 each", "Single-Leg Deadlifts – 3×10 each", "Box Jumps – 4×8", "Calf Raises – 4×20"],
+      },
+      {
+        day: "Day 5", name: "Core Inferno", focus: "Core Training", duration: "30 min", calories: "250",
+        difficulty: "Hard", icon: Zap,
+        exercises: ["Dragon Flags – 3×8", "Turkish Get-Ups – 3×5 each", "Pallof Press – 3×12 each", "V-Ups – 3×15", "Plank – 3×60s"],
+      },
+      {
+        day: "Day 6", name: "Full Body Burner", focus: "Full Body", duration: "40 min", calories: "420",
+        difficulty: "Hard", icon: Zap,
+        exercises: ["Clean & Press – 4×8", "Pull-Ups – 4×8", "Front Squats – 4×10", "Burpees – 3×12", "Farmer Carries – 3×40m"],
+      },
+      {
+        day: "Day 7", name: "Guided Stretch", focus: "Recovery", duration: "25 min", calories: "70",
+        difficulty: "Easy", icon: StretchHorizontal, isRest: true,
+        exercises: ["Deep stretch session targeting all major muscle groups. Focus on areas of tension."],
+      },
     ],
   },
   {
     week: 4,
     title: "Final Push",
     workouts: [
-      { day: "Monday", name: "HIIT Max Effort", duration: "30 min", calories: "420", icon: Zap },
-      { day: "Tuesday", name: "Total Body Strength", duration: "45 min", calories: "380", icon: Dumbbell },
-      { day: "Wednesday", name: "Incline Walk", duration: "30 min", calories: "200", icon: Heart },
-      { day: "Thursday", name: "Leg Day Finisher", duration: "40 min", calories: "380", icon: Dumbbell },
-      { day: "Friday", name: "The Grand Finale", duration: "35 min", calories: "450", icon: Zap },
-      { day: "Saturday", name: "Celebration Stretch", duration: "25 min", calories: "100", icon: Heart },
+      {
+        day: "Day 1", name: "Max Effort Upper", focus: "Upper Body", duration: "45 min", calories: "350",
+        difficulty: "Hard", icon: Dumbbell,
+        exercises: ["Incline Bench Press – 4×8", "Weighted Pull-Ups – 4×6", "Arnold Press – 3×10", "Close-Grip Bench – 3×10", "Face Pulls – 3×15"],
+      },
+      {
+        day: "Day 2", name: "HIIT Max Effort", focus: "Cardio", duration: "30 min", calories: "420",
+        difficulty: "Hard", icon: Heart,
+        exercises: ["Bike Sprints – 10×30s/30s", "Devil Press – 4×8", "Shuttle Runs – 6×20m", "Rowing Sprints – 4×250m"],
+      },
+      {
+        day: "Day 3", name: "Rest Day", focus: "Recovery", duration: "—", calories: "0",
+        difficulty: "Easy", icon: Moon, isRest: true,
+        exercises: ["You've earned it. Full rest — stay hydrated and eat well."],
+      },
+      {
+        day: "Day 4", name: "Leg Day Finisher", focus: "Lower Body", duration: "40 min", calories: "380",
+        difficulty: "Hard", icon: Dumbbell,
+        exercises: ["Barbell Squats – 5×5 (heavy)", "Leg Press – 4×12", "Hack Squats – 3×10", "Walking Lunges – 3×12 each", "Seated Calf Raises – 4×20"],
+      },
+      {
+        day: "Day 5", name: "Core Finisher", focus: "Core Training", duration: "25 min", calories: "200",
+        difficulty: "Moderate", icon: Zap,
+        exercises: ["Hanging Leg Raises – 4×12", "Cable Crunches – 3×15", "Plank – 3×60s", "Dead Bug – 3×12 each", "Bird Dog – 3×10 each"],
+      },
+      {
+        day: "Day 6", name: "The Grand Finale", focus: "Full Body", duration: "45 min", calories: "450",
+        difficulty: "Hard", icon: Zap,
+        exercises: ["Deadlifts – 4×6", "Push Press – 4×8", "Barbell Rows – 4×10", "Box Jumps – 3×10", "Burpee Pull-Ups – 3×8"],
+      },
+      {
+        day: "Day 7", name: "Celebration Stretch", focus: "Recovery", duration: "25 min", calories: "80",
+        difficulty: "Easy", icon: StretchHorizontal, isRest: true,
+        exercises: ["Congratulations! Full-body stretching and meditation to close out the program."],
+      },
     ],
   },
 ];
@@ -86,11 +202,7 @@ const FatLossProgram = () => {
     }
     setLoading(name);
     const { error } = await supabase.from("workout_progress").insert({
-      user_id: user.id,
-      workout_name: name,
-      category: "fat-loss-program",
-      duration,
-      calories,
+      user_id: user.id, workout_name: name, category: "fat-loss-program", duration, calories,
     });
     setLoading(null);
     if (error) {
@@ -101,11 +213,9 @@ const FatLossProgram = () => {
     }
   };
 
-  const totalWorkouts = weeks.reduce((a, w) => a + w.workouts.length, 0);
-  const completedCount = weeks.reduce(
-    (a, w) => a + w.workouts.filter((wo) => completed.has(wo.name)).length,
-    0
-  );
+  const activeWorkouts = weeks.flatMap((w) => w.workouts.filter((wo) => !wo.isRest));
+  const totalWorkouts = activeWorkouts.length;
+  const completedCount = activeWorkouts.filter((wo) => completed.has(wo.name)).length;
   const progress = totalWorkouts > 0 ? Math.round((completedCount / totalWorkouts) * 100) : 0;
 
   return (
@@ -128,8 +238,6 @@ const FatLossProgram = () => {
           <p className="mt-4 max-w-xl text-primary-foreground/70 text-lg">
             A 4-week high-intensity program combining HIIT, strength circuits, and active recovery to maximize fat burn and build lean muscle.
           </p>
-
-          {/* Progress bar */}
           <div className="mt-8 max-w-md">
             <div className="flex items-center justify-between text-sm text-primary-foreground/60 mb-2">
               <span>{completedCount} of {totalWorkouts} workouts completed</span>
@@ -144,31 +252,28 @@ const FatLossProgram = () => {
 
       {/* Weekly plan */}
       <section className="container py-12 md:py-16">
-        {/* Week tabs */}
         <div className="flex gap-2 mb-10 overflow-x-auto pb-2">
           {weeks.map((w, i) => {
-            const weekCompleted = w.workouts.filter((wo) => completed.has(wo.name)).length;
-            const allDone = weekCompleted === w.workouts.length;
+            const active = w.workouts.filter((wo) => !wo.isRest);
+            const weekCompleted = active.filter((wo) => completed.has(wo.name)).length;
+            const allDone = weekCompleted === active.length;
             return (
               <button
                 key={w.week}
                 onClick={() => setActiveWeek(i)}
                 className={`flex-shrink-0 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-300 ${
-                  activeWeek === i
-                    ? "bg-primary text-primary-foreground shadow-card"
-                    : "bg-card text-muted-foreground hover:bg-secondary"
+                  activeWeek === i ? "bg-primary text-primary-foreground shadow-card" : "bg-card text-muted-foreground hover:bg-secondary"
                 }`}
               >
                 <span className="block">Week {w.week}</span>
                 <span className={`block text-xs mt-0.5 ${activeWeek === i ? "text-primary-foreground/70" : "text-muted-foreground/60"}`}>
-                  {allDone ? "✓ Complete" : `${weekCompleted}/${w.workouts.length}`}
+                  {allDone ? "✓ Complete" : `${weekCompleted}/${active.length}`}
                 </span>
               </button>
             );
           })}
         </div>
 
-        {/* Active week */}
         <div>
           <h2 className="font-heading text-2xl font-bold text-primary mb-2">
             Week {weeks[activeWeek].week}: {weeks[activeWeek].title}
@@ -176,53 +281,15 @@ const FatLossProgram = () => {
           <p className="text-muted-foreground mb-8">Complete each workout to progress through the program.</p>
 
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {weeks[activeWeek].workouts.map((wo) => {
-              const done = completed.has(wo.name);
-              const isLoading = loading === wo.name;
-              const IconComp = wo.icon;
-
-              return (
-                <div
-                  key={wo.name}
-                  className={`group overflow-hidden rounded-xl bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 ${done ? "ring-2 ring-success/40" : ""}`}
-                >
-                  <div className="p-5">
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${done ? "bg-success/10" : "bg-accent/10"}`}>
-                          {done ? <CheckCircle2 className="h-5 w-5 text-success" /> : <IconComp className="h-5 w-5 text-accent" />}
-                        </div>
-                        <div>
-                          <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground/60">{wo.day}</p>
-                          <h3 className="font-heading text-base font-bold text-primary">{wo.name}</h3>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{wo.duration}</span>
-                      <span className="flex items-center gap-1"><Flame className="h-3 w-3" />{wo.calories} cal</span>
-                    </div>
-
-                    <Button
-                      variant={done ? "success" : "coral"}
-                      size="sm"
-                      className="mt-4 w-full gap-1"
-                      disabled={done || isLoading}
-                      onClick={() => markComplete(wo.name, wo.duration, wo.calories)}
-                    >
-                      {isLoading ? (
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                      ) : done ? (
-                        <><CheckCircle2 className="h-3.5 w-3.5" /> Completed</>
-                      ) : (
-                        <><Circle className="h-3.5 w-3.5" /> Mark Complete</>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              );
-            })}
+            {weeks[activeWeek].workouts.map((wo) => (
+              <ProgramWorkoutCard
+                key={wo.name}
+                workout={wo}
+                completed={completed.has(wo.name)}
+                loading={loading === wo.name}
+                onComplete={() => markComplete(wo.name, wo.duration, wo.calories)}
+              />
+            ))}
           </div>
         </div>
       </section>

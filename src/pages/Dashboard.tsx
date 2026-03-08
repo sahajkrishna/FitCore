@@ -70,9 +70,9 @@ interface ProgramProgress {
 }
 
 const programDefs = [
-  { slug: "/programs/fat-loss", title: "Fat Loss Program", category: "fat-loss-program", total: 24, color: "bg-accent" },
+  { slug: "/programs/fat-loss", title: "Fat Loss Program", category: "fat-loss-program", total: 20, color: "bg-accent" },
   { slug: "/programs/strength-builder", title: "Strength Builder", category: "strength-builder-program", total: 20, color: "bg-destructive" },
-  { slug: "/programs/30-day-challenge", title: "30 Day Challenge", category: "30-day-challenge", total: 30, color: "bg-success" },
+  { slug: "/programs/30-day-challenge", title: "30 Day Challenge", category: "30-day-challenge", total: 20, color: "bg-success" },
 ];
 
 const Dashboard = () => {
