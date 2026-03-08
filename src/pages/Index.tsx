@@ -147,6 +147,36 @@ const Index = () => {
         <div className="absolute -bottom-1 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
       </section>
 
+
+      {/* How FitCore Works */}
+      <section className="bg-secondary/30 py-20 md:py-28">
+        <div className="container">
+          <div className="mx-auto max-w-xl text-center mb-14">
+            <span className="text-xs font-bold uppercase tracking-wider text-accent">Simple & Effective</span>
+            <h2 className="mt-3 font-heading text-3xl font-bold text-primary md:text-4xl">How FitCore Works</h2>
+            <p className="mt-4 text-muted-foreground">Three simple steps to transform your fitness journey.</p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              { icon: Dumbbell, step: "01", title: "Explore Workouts", desc: "Browse strength, cardio, and flexibility programs designed by fitness experts." },
+              { icon: TrendingUp, step: "02", title: "Track Progress", desc: "Mark workouts completed and monitor your progress over time." },
+              { icon: Target, step: "03", title: "Stay Consistent", desc: "Build habits, hit your goals, and improve your health every day." },
+            ].map((item, i) => (
+              <RevealSection key={item.step} delay={i * 150}>
+                <div className="group relative rounded-2xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-2 text-center">
+                  <span className="absolute top-4 right-5 font-heading text-5xl font-bold text-accent/10 select-none">{item.step}</span>
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-xl bg-accent/10 text-accent transition-transform duration-300 group-hover:scale-110 group-hover:bg-accent/15">
+                    <item.icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="mt-5 font-heading text-lg font-bold text-primary">{item.title}</h3>
+                  <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                </div>
+              </RevealSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Motivational Quote */}
       <section ref={quote.ref} className="relative overflow-hidden bg-background py-20 md:py-28">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231a2b4a' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")" }} />
