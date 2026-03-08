@@ -245,6 +245,8 @@ const AiWorkoutGenerator = () => {
 
       const data: WorkoutPlan = await resp.json();
       setPlan(data);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 4000);
     } catch (e) {
       console.error(e);
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
