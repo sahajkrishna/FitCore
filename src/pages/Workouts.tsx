@@ -7,6 +7,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
+import FeaturedPrograms from "@/components/FeaturedPrograms";
 
 // Exercise images
 import imgBarbellSquat from "@/assets/exercises/barbell-squat.jpg";
