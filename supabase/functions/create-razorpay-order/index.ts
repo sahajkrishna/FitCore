@@ -46,9 +46,8 @@ Deno.serve(async (req) => {
         Authorization: "Basic " + btoa(`${keyId}:${keySecret}`),
       },
       body: JSON.stringify({
-        amount: 49900, // ₹499 in paise
+        amount: 49900,
         currency: "INR",
-        receipt: `fc_${Date.now()}`,
         notes: { user_id: userId, plan: "premium" },
       }),
     });
