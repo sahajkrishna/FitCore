@@ -7,6 +7,8 @@ const corsHeaders = {
 };
 
 Deno.serve(async (req) => {
+  console.log("v2 - create-razorpay-order invoked");
+
   if (req.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
@@ -39,17 +41,21 @@ Deno.serve(async (req) => {
     const keyId = Deno.env.get("RAZORPAY_KEY_ID")!;
     const keySecret = Deno.env.get("RAZORPAY_KEY_SECRET")!;
 
+    const body = JSON.stringify({
+      amount: 49900,
+      currency: "INR",
+      notes: { user_id: userId, plan: "premium" },
+    });
+
+    console.log("Creating Razorpay order with body:", body);
+
     const orderRes = await fetch("https://api.razorpay.com/v1/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Basic " + btoa(`${keyId}:${keySecret}`),
       },
-      body: JSON.stringify({
-        amount: 49900,
-        currency: "INR",
-        notes: { user_id: userId, plan: "premium" },
-      }),
+      body,
     });
 
     if (!orderRes.ok) {
@@ -62,6 +68,7 @@ Deno.serve(async (req) => {
     }
 
     const order = await orderRes.json();
+    console.log("Order created:", order.id);
 
     return new Response(
       JSON.stringify({ order_id: order.id, amount: order.amount, currency: order.currency, key_id: keyId }),
