@@ -346,6 +346,15 @@ const AiWorkoutGenerator = () => {
                   <Coffee className="h-3.5 w-3.5" /> {restDays} rest days
                 </Badge>
               </div>
+              <Button
+                variant={saved ? "secondary" : "coral"}
+                size="sm"
+                className="gap-1.5"
+                onClick={handleSave}
+                disabled={saving || saved}
+              >
+                {saved ? <><Check className="h-4 w-4" /> Saved to Dashboard</> : saving ? <><Loader2 className="h-4 w-4 animate-spin" /> Saving…</> : <><Save className="h-4 w-4" /> Save Plan</>}
+              </Button>
             </div>
 
             {/* Day cards */}
