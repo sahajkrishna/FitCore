@@ -61,6 +61,20 @@ interface SubscriptionInfo {
   currency: string;
 }
 
+interface ProgramProgress {
+  slug: string;
+  title: string;
+  total: number;
+  completed: number;
+  color: string;
+}
+
+const programDefs = [
+  { slug: "/programs/fat-loss", title: "Fat Loss Program", category: "fat-loss-program", total: 24, color: "bg-accent" },
+  { slug: "/programs/strength-builder", title: "Strength Builder", category: "strength-builder-program", total: 20, color: "bg-destructive" },
+  { slug: "/programs/30-day-challenge", title: "30 Day Challenge", category: "30-day-challenge", total: 30, color: "bg-success" },
+];
+
 const Dashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -72,6 +86,7 @@ const Dashboard = () => {
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [isPremiumProfile, setIsPremiumProfile] = useState(false);
   const [totalThisWeek, setTotalThisWeek] = useState(0);
+  const [programProgress, setProgramProgress] = useState<ProgramProgress[]>([]);
 
   useEffect(() => {
     if (!user) return;
