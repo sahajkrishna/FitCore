@@ -297,6 +297,13 @@ const FatLossProgram = () => {
           </div>
         </div>
       </section>
+
+      <WorkoutCongrats
+        open={congratsOpen}
+        onClose={() => setCongratsOpen(false)}
+        workoutName={lastCompleted}
+        progress={progress}
+      />
     </Layout>
   );
 };
