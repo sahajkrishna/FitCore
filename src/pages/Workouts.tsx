@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
-import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, BarChart3, CheckCircle2, Loader2, Bookmark, BookmarkCheck } from "lucide-react";
+import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, BarChart3, CheckCircle2, Loader2, Bookmark, BookmarkCheck, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 
 const categories = [
   {
@@ -16,7 +18,7 @@ const categories = [
     exercises: [
       { name: "Barbell Squat", muscle: "Legs", level: "Intermediate", duration: "45 min", calories: "320" },
       { name: "Bench Press", muscle: "Chest", level: "Intermediate", duration: "40 min", calories: "280" },
-      { name: "Deadlift", muscle: "Back", level: "Advanced", duration: "50 min", calories: "350" },
+      { name: "Deadlift", muscle: "Back", level: "Advanced", duration: "50 min", calories: "350", premium: true },
       { name: "Overhead Press", muscle: "Shoulders", level: "Beginner", duration: "30 min", calories: "200" },
       { name: "Pull-Ups", muscle: "Back", level: "Intermediate", duration: "20 min", calories: "180" },
       { name: "Lunges", muscle: "Legs", level: "Beginner", duration: "25 min", calories: "220" },
@@ -32,8 +34,8 @@ const categories = [
       { name: "Jump Rope", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "280" },
       { name: "Cycling", muscle: "Legs", level: "Beginner", duration: "45 min", calories: "400" },
       { name: "HIIT Circuit", muscle: "Full Body", level: "Intermediate", duration: "25 min", calories: "380" },
-      { name: "Swimming", muscle: "Full Body", level: "Intermediate", duration: "40 min", calories: "420" },
-      { name: "Rowing", muscle: "Upper Body", level: "Intermediate", duration: "30 min", calories: "300" },
+      { name: "Swimming", muscle: "Full Body", level: "Intermediate", duration: "40 min", calories: "420", premium: true },
+      { name: "Rowing", muscle: "Upper Body", level: "Intermediate", duration: "30 min", calories: "300", premium: true },
     ],
   },
   {
@@ -47,7 +49,7 @@ const categories = [
       { name: "Pilates Core", muscle: "Core", level: "Intermediate", duration: "40 min", calories: "200" },
       { name: "Foam Rolling", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "60" },
       { name: "Mobility Drills", muscle: "Joints", level: "Beginner", duration: "25 min", calories: "100" },
-      { name: "Tai Chi", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "120" },
+      { name: "Tai Chi", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "120", premium: true },
     ],
   },
 ];
@@ -58,6 +60,7 @@ const levelColor = (l: string) =>
 const Workouts = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isPremium } = usePremiumStatus();
   const [completedToday, setCompletedToday] = useState<Set<string>>(new Set());
   const [savedWorkouts, setSavedWorkouts] = useState<Set<string>>(new Set());
   const [loadingWorkout, setLoadingWorkout] = useState<string | null>(null);
@@ -68,7 +71,6 @@ const Workouts = () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Fetch completed today & saved workouts in parallel
     Promise.all([
       supabase
         .from("workout_progress")
@@ -165,29 +167,39 @@ const Workouts = () => {
             </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {cat.exercises.map((ex) => {
+                const isLocked = ex.premium && !isPremium;
                 const done = completedToday.has(ex.name);
                 const saved = savedWorkouts.has(ex.name);
                 const isLoading = loadingWorkout === ex.name;
                 const isSaving = savingWorkout === ex.name;
                 return (
-                  <div key={ex.name} className={`group rounded-xl bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 ${done ? "ring-2 ring-success/40" : ""}`}>
+                  <div key={ex.name} className={`group rounded-xl bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 ${done ? "ring-2 ring-success/40" : ""} ${isLocked ? "opacity-75" : ""}`}>
                     <div className="flex items-start justify-between">
-                      <h3 className="font-heading text-base font-bold text-primary">{ex.name}</h3>
                       <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => toggleSave(ex.name, cat.key)}
-                          disabled={isSaving}
-                          className="text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
-                          title={saved ? "Unsave workout" : "Save workout"}
-                        >
-                          {isSaving ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : saved ? (
-                            <BookmarkCheck className="h-4 w-4 text-accent" />
-                          ) : (
-                            <Bookmark className="h-4 w-4" />
-                          )}
-                        </button>
+                        <h3 className="font-heading text-base font-bold text-primary">{ex.name}</h3>
+                        {ex.premium && (
+                          <Badge variant="outline" className="text-[10px] border-accent/30 text-accent gap-0.5">
+                            <Lock className="h-2.5 w-2.5" /> Premium
+                          </Badge>
+                        )}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {!isLocked && (
+                          <button
+                            onClick={() => toggleSave(ex.name, cat.key)}
+                            disabled={isSaving}
+                            className="text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
+                            title={saved ? "Unsave workout" : "Save workout"}
+                          >
+                            {isSaving ? (
+                              <Loader2 className="h-4 w-4 animate-spin" />
+                            ) : saved ? (
+                              <BookmarkCheck className="h-4 w-4 text-accent" />
+                            ) : (
+                              <Bookmark className="h-4 w-4" />
+                            )}
+                          </button>
+                        )}
                         <Badge variant="outline" className={`text-xs ${levelColor(ex.level)}`}>{ex.level}</Badge>
                       </div>
                     </div>
@@ -197,15 +209,21 @@ const Workouts = () => {
                       <span className="flex items-center gap-1"><Flame className="h-3 w-3" />{ex.calories} cal</span>
                       <span className="flex items-center gap-1"><BarChart3 className="h-3 w-3" />{ex.level}</span>
                     </div>
-                    <Button
-                      variant={done ? "success" : "coral"}
-                      size="sm"
-                      className="w-full mt-4"
-                      disabled={done || isLoading}
-                      onClick={() => markComplete(ex.name, cat.key, ex.duration, ex.calories)}
-                    >
-                      {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : done ? <><CheckCircle2 className="h-4 w-4" /> Completed</> : "Mark Complete"}
-                    </Button>
+                    {isLocked ? (
+                      <Button variant="outline" size="sm" className="w-full mt-4 gap-1" asChild>
+                        <a href="/pricing"><Lock className="h-3 w-3" /> Upgrade to Unlock</a>
+                      </Button>
+                    ) : (
+                      <Button
+                        variant={done ? "success" : "coral"}
+                        size="sm"
+                        className="w-full mt-4"
+                        disabled={done || isLoading}
+                        onClick={() => markComplete(ex.name, cat.key, ex.duration, ex.calories)}
+                      >
+                        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : done ? <><CheckCircle2 className="h-4 w-4" /> Completed</> : "Mark Complete"}
+                      </Button>
+                    )}
                   </div>
                 );
               })}
