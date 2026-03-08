@@ -228,7 +228,8 @@ const ThirtyDayChallenge = () => {
     <Layout>
       <section className="relative overflow-hidden bg-primary">
         <img src={challengeImg} alt="30 Day Challenge" className="absolute inset-0 h-full w-full object-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/50" />
+        <FloatingFitnessIcons />
         <div className="container relative z-10 py-16 md:py-24">
           <Link to="/workouts" className="mb-6 inline-flex items-center gap-1 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Workouts
