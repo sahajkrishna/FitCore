@@ -238,10 +238,12 @@ const Pricing = () => {
                 </Button>
               )}
             </div>
+            </RevealSection>
           ))}
         </div>
       </section>
 
+      <RevealSection>
       <section className="border-t border-border bg-muted/30">
         <div className="container py-16 text-center">
           <h2 className="font-heading text-xl font-bold text-foreground mb-2">
