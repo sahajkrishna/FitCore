@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 
 interface WorkoutEntry {
   id: string;
