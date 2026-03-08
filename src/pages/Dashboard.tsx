@@ -415,6 +415,14 @@ const Dashboard = () => {
             </div>
           )}
         </section>
+          </div>{/* end gym equipment bg container */}
+        </section>{/* end gym equipment bg section */}
+
+        {/* Athletes Background Section */}
+        <section className="relative py-16">
+          <img src={bgAthletes} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/93" />
+          <div className="container relative z-10 space-y-10">
 
         {/* Workout History */}
         <section>
@@ -471,6 +479,8 @@ const Dashboard = () => {
             <p><span className="font-medium text-foreground">Member since:</span> <span className="text-muted-foreground">{user?.created_at ? new Date(user.created_at).toLocaleDateString() : "—"}</span></p>
           </CardContent>
         </Card>
+          </div>{/* end athletes bg container */}
+        </section>{/* end athletes bg section */}
       </div>
     </Layout>
   );
