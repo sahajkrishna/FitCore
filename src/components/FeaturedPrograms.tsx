@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Zap, ArrowRight, Flame } from "lucide-react";
@@ -10,6 +11,7 @@ import challengeImg from "@/assets/programs/30-day-challenge.jpg";
 const programs = [
   {
     title: "Fat Loss Program",
+    slug: "/programs/fat-loss",
     image: fatLossImg,
     duration: "8 Weeks",
     difficulty: "Intermediate",
@@ -19,6 +21,7 @@ const programs = [
   },
   {
     title: "Strength Builder",
+    slug: "/programs/strength-builder",
     image: strengthImg,
     duration: "12 Weeks",
     difficulty: "Advanced",
@@ -28,6 +31,7 @@ const programs = [
   },
   {
     title: "30 Day Fitness Challenge",
+    slug: "/programs/30-day-challenge",
     image: challengeImg,
     duration: "4 Weeks",
     difficulty: "Beginner",
@@ -152,8 +156,8 @@ const FeaturedPrograms = () => {
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {p.description}
                 </p>
-                <Button variant="coral" size="sm" className="mt-5 w-full gap-1">
-                  Start Program <ArrowRight className="h-3.5 w-3.5" />
+                <Button variant="coral" size="sm" className="mt-5 w-full gap-1" asChild>
+                  <Link to={p.slug}>Start Program <ArrowRight className="h-3.5 w-3.5" /></Link>
                 </Button>
               </div>
             </div>
