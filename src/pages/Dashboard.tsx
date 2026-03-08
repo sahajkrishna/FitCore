@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import RevealSection from "@/components/RevealSection";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import Layout from "@/components/Layout";
@@ -267,6 +268,7 @@ const Dashboard = () => {
         </section>
 
         {/* Quick Stats */}
+        <RevealSection>
         <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { icon: Flame, label: "This Week", value: `${totalThisWeek} workout${totalThisWeek !== 1 ? "s" : ""}`, color: "text-accent", bg: "bg-accent/10" },
@@ -287,6 +289,7 @@ const Dashboard = () => {
             </Card>
           ))}
         </section>
+        </RevealSection>
 
         {/* Program Progress */}
         {programProgress.length > 0 && (
@@ -323,7 +326,7 @@ const Dashboard = () => {
           </section>
         )}
 
-        {/* Workout Category Cards */}
+        <RevealSection delay={100}>
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Explore Workouts</h2>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -350,8 +353,8 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
-
-        {/* Quick Access */}
+        </RevealSection>
+        <RevealSection delay={200}>
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground mb-4">Quick Access</h2>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -373,9 +376,9 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
+        </RevealSection>
         </div>{/* end main container */}
 
-        {/* Gym Equipment Background Section */}
         <section className="relative py-16 my-0">
           <img src={bgGymEquipment} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
           <div className="absolute inset-0 bg-background/92" />

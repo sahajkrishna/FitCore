@@ -16,7 +16,7 @@ const RevealSection = ({ children, className, delay = 0 }: RevealSectionProps) =
       ref={ref}
       className={cn(
         "transition-all duration-700 ease-out",
-        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8",
+        visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
         className
       )}
       style={{ transitionDelay: `${delay}ms` }}
