@@ -57,12 +57,13 @@ const Nutrition = () => {
 
       <section className="container py-16 md:py-20">
         <div className="grid gap-8">
-          {guides.map((g) => {
+          {guides.map((g, i) => {
             const isLocked = g.premium && !isPremium;
 
             if (isLocked) {
               return (
-                <article key={g.title} className="relative rounded-xl bg-card p-8 shadow-card md:p-10">
+                <RevealSection key={g.title} delay={i * 120}>
+                <article className="relative rounded-xl bg-card p-8 shadow-card md:p-10">
                   <div className="flex items-start gap-4 opacity-40 pointer-events-none select-none">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-success/10">
                       <g.icon className="h-6 w-6 text-success" />
