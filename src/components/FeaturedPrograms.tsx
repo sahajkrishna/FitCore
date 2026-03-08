@@ -156,8 +156,8 @@ const FeaturedPrograms = () => {
                 <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
                   {p.description}
                 </p>
-                <Button variant="coral" size="sm" className="mt-5 w-full gap-1">
-                  Start Program <ArrowRight className="h-3.5 w-3.5" />
+                <Button variant="coral" size="sm" className="mt-5 w-full gap-1" asChild>
+                  <Link to={p.slug}>Start Program <ArrowRight className="h-3.5 w-3.5" /></Link>
                 </Button>
               </div>
             </div>
