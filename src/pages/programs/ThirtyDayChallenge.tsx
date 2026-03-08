@@ -301,10 +301,10 @@ const ThirtyDayChallenge = () => {
         <div>
           <h2 className="font-heading text-2xl font-bold text-primary mb-2">Week {weeks[activeWeek].week}: {weeks[activeWeek].title}</h2>
           <p className="text-muted-foreground mb-8">Complete one workout every day — no excuses!</p>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {weeks[activeWeek].workouts.map((wo) => (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {weeks[activeWeek].workouts.map((wo, i) => (
               <ProgramWorkoutCard key={wo.name} workout={wo} completed={completed.has(wo.name)} loading={loading === wo.name}
-                onComplete={() => markComplete(wo.name, wo.duration, wo.calories)} />
+                onComplete={() => markComplete(wo.name, wo.duration, wo.calories)} index={i} />
             ))}
           </div>
         </div>
