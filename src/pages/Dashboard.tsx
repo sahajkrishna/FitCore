@@ -376,7 +376,7 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
-        </div>{/* end main container */}
+        </RevealSection>
 
         {/* Gym Equipment Background Section */}
         <section className="relative py-16 my-0">
