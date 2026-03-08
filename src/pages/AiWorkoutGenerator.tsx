@@ -218,6 +218,7 @@ const AiWorkoutGenerator = () => {
     setLoading(true);
     setPlan(null);
     setSaved(false);
+    setShowSuccess(false);
 
     try {
       const resp = await fetch(
