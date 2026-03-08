@@ -48,9 +48,9 @@ const categoryColor = (cat: string) => {
 
 interface SubscriptionInfo {
   plan: string;
-  status: string;
-  expires_at: string;
-  created_at: string;
+  subscription_status: string;
+  subscription_end_date: string;
+  subscription_start_date: string;
   amount: number;
   currency: string;
 }
