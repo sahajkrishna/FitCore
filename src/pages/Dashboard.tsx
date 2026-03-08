@@ -275,8 +275,13 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
+        </div>{/* end main container */}
 
-        {/* Subscription Status */}
+        {/* Gym Equipment Background Section */}
+        <section className="relative py-16 my-0">
+          <img src={bgGymEquipment} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/92" />
+          <div className="container relative z-10 space-y-10">
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
             <Crown className="h-5 w-5 text-accent" /> Subscription Status
