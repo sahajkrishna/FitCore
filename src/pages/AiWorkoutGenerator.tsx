@@ -146,11 +146,42 @@ const DayCard = ({ day, index }: { day: WorkoutDay; index: number }) => {
 
 const AiWorkoutGenerator = () => {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [goal, setGoal] = useState("");
   const [level, setLevel] = useState("");
   const [daysPerWeek, setDaysPerWeek] = useState("");
   const [plan, setPlan] = useState<WorkoutPlan | null>(null);
   const [loading, setLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+
+  const handleSave = async () => {
+    if (!user) {
+      toast({ title: "Please sign in to save plans", variant: "destructive" });
+      navigate("/login");
+      return;
+    }
+    if (!plan) return;
+
+    setSaving(true);
+    const { error } = await supabase.from("ai_workout_plans" as any).insert({
+      user_id: user.id,
+      fitness_goal: goal,
+      experience_level: level,
+      days_per_week: parseInt(daysPerWeek),
+      workout_plan: plan,
+    } as any);
+
+    if (error) {
+      console.error(error);
+      toast({ title: "Failed to save plan", variant: "destructive" });
+    } else {
+      setSaved(true);
+      toast({ title: "Plan saved!", description: "View it on your dashboard." });
+    }
+    setSaving(false);
+  };
 
   const handleGenerate = async () => {
     if (!goal.trim() || !level || !daysPerWeek) {
