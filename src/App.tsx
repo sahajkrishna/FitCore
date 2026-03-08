@@ -40,6 +40,7 @@ const App = () => (
             <Route path="/programs/fat-loss" element={<FatLossProgram />} />
             <Route path="/programs/strength-builder" element={<StrengthBuilderProgram />} />
             <Route path="/programs/30-day-challenge" element={<ThirtyDayChallenge />} />
+            <Route path="/ai-workout" element={<AiWorkoutGenerator />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AuthProvider>
