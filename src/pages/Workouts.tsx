@@ -1,55 +1,77 @@
 import { useState, useEffect } from "react";
 import Layout from "@/components/Layout";
-import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, BarChart3, CheckCircle2, Loader2, Bookmark, BookmarkCheck, Lock } from "lucide-react";
+import { Dumbbell, Heart, StretchHorizontal, Clock, Flame, CheckCircle2, Loader2, Bookmark, BookmarkCheck, Lock, Play } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
-import PremiumGate from "@/components/PremiumGate";
+
+// Exercise images
+import imgBarbellSquat from "@/assets/exercises/barbell-squat.jpg";
+import imgBenchPress from "@/assets/exercises/bench-press.jpg";
+import imgDeadlift from "@/assets/exercises/deadlift.jpg";
+import imgOverheadPress from "@/assets/exercises/overhead-press.jpg";
+import imgPullUps from "@/assets/exercises/pull-ups.jpg";
+import imgLunges from "@/assets/exercises/lunges.jpg";
+import imgRunning from "@/assets/exercises/running.jpg";
+import imgJumpRope from "@/assets/exercises/jump-rope.jpg";
+import imgCycling from "@/assets/exercises/cycling.jpg";
+import imgHiit from "@/assets/exercises/hiit.jpg";
+import imgSwimming from "@/assets/exercises/swimming.jpg";
+import imgRowing from "@/assets/exercises/rowing.jpg";
+import imgYoga from "@/assets/exercises/yoga.jpg";
+import imgDynamicStretching from "@/assets/exercises/dynamic-stretching.jpg";
+import imgPilates from "@/assets/exercises/pilates.jpg";
+import imgFoamRolling from "@/assets/exercises/foam-rolling.jpg";
+import imgMobilityDrills from "@/assets/exercises/mobility-drills.jpg";
+import imgTaiChi from "@/assets/exercises/tai-chi.jpg";
 
 const categories = [
   {
-    name: "Strength",
+    name: "Strength Training",
     key: "strength",
     icon: Dumbbell,
     color: "bg-accent/10 text-accent",
+    badgeColor: "border-accent/30 text-accent",
     exercises: [
-      { name: "Barbell Squat", muscle: "Legs", level: "Intermediate", duration: "45 min", calories: "320" },
-      { name: "Bench Press", muscle: "Chest", level: "Intermediate", duration: "40 min", calories: "280" },
-      { name: "Deadlift", muscle: "Back", level: "Advanced", duration: "50 min", calories: "350", premium: true },
-      { name: "Overhead Press", muscle: "Shoulders", level: "Beginner", duration: "30 min", calories: "200" },
-      { name: "Pull-Ups", muscle: "Back", level: "Intermediate", duration: "20 min", calories: "180" },
-      { name: "Lunges", muscle: "Legs", level: "Beginner", duration: "25 min", calories: "220" },
+      { name: "Barbell Squat", muscle: "Legs", level: "Intermediate", duration: "45 min", calories: "320", image: imgBarbellSquat },
+      { name: "Bench Press", muscle: "Chest", level: "Intermediate", duration: "40 min", calories: "280", image: imgBenchPress },
+      { name: "Deadlift", muscle: "Back", level: "Advanced", duration: "50 min", calories: "350", image: imgDeadlift, premium: true },
+      { name: "Overhead Press", muscle: "Shoulders", level: "Beginner", duration: "30 min", calories: "200", image: imgOverheadPress },
+      { name: "Pull-Ups", muscle: "Back", level: "Intermediate", duration: "20 min", calories: "180", image: imgPullUps },
+      { name: "Lunges", muscle: "Legs", level: "Beginner", duration: "25 min", calories: "220", image: imgLunges },
     ],
   },
   {
-    name: "Cardio",
+    name: "Cardio Workouts",
     key: "cardio",
     icon: Heart,
     color: "bg-destructive/10 text-destructive",
+    badgeColor: "border-destructive/30 text-destructive",
     exercises: [
-      { name: "Running (5K)", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "350" },
-      { name: "Jump Rope", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "280" },
-      { name: "Cycling", muscle: "Legs", level: "Beginner", duration: "45 min", calories: "400" },
-      { name: "HIIT Circuit", muscle: "Full Body", level: "Intermediate", duration: "25 min", calories: "380" },
-      { name: "Swimming", muscle: "Full Body", level: "Intermediate", duration: "40 min", calories: "420", premium: true },
-      { name: "Rowing", muscle: "Upper Body", level: "Intermediate", duration: "30 min", calories: "300", premium: true },
+      { name: "Running (5K)", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "350", image: imgRunning },
+      { name: "Jump Rope", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "280", image: imgJumpRope },
+      { name: "Cycling", muscle: "Legs", level: "Beginner", duration: "45 min", calories: "400", image: imgCycling },
+      { name: "HIIT Circuit", muscle: "Full Body", level: "Intermediate", duration: "25 min", calories: "380", image: imgHiit },
+      { name: "Swimming", muscle: "Full Body", level: "Intermediate", duration: "40 min", calories: "420", image: imgSwimming, premium: true },
+      { name: "Rowing", muscle: "Upper Body", level: "Intermediate", duration: "30 min", calories: "300", image: imgRowing, premium: true },
     ],
   },
   {
-    name: "Flexibility",
+    name: "Flexibility & Mobility",
     key: "flexibility",
     icon: StretchHorizontal,
     color: "bg-success/10 text-success",
+    badgeColor: "border-success/30 text-success",
     exercises: [
-      { name: "Yoga Flow", muscle: "Full Body", level: "Beginner", duration: "45 min", calories: "150" },
-      { name: "Dynamic Stretching", muscle: "Full Body", level: "Beginner", duration: "15 min", calories: "80" },
-      { name: "Pilates Core", muscle: "Core", level: "Intermediate", duration: "40 min", calories: "200" },
-      { name: "Foam Rolling", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "60" },
-      { name: "Mobility Drills", muscle: "Joints", level: "Beginner", duration: "25 min", calories: "100" },
-      { name: "Tai Chi", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "120", premium: true },
+      { name: "Yoga Flow", muscle: "Full Body", level: "Beginner", duration: "45 min", calories: "150", image: imgYoga },
+      { name: "Dynamic Stretching", muscle: "Full Body", level: "Beginner", duration: "15 min", calories: "80", image: imgDynamicStretching },
+      { name: "Pilates Core", muscle: "Core", level: "Intermediate", duration: "40 min", calories: "200", image: imgPilates },
+      { name: "Foam Rolling", muscle: "Full Body", level: "Beginner", duration: "20 min", calories: "60", image: imgFoamRolling },
+      { name: "Mobility Drills", muscle: "Joints", level: "Beginner", duration: "25 min", calories: "100", image: imgMobilityDrills },
+      { name: "Tai Chi", muscle: "Full Body", level: "Beginner", duration: "30 min", calories: "120", image: imgTaiChi, premium: true },
     ],
   },
 ];
@@ -165,65 +187,102 @@ const Workouts = () => {
               <h2 className="font-heading text-2xl font-bold text-primary">{cat.name}</h2>
               <Badge variant="secondary" className="ml-2">{cat.exercises.length} exercises</Badge>
             </div>
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {cat.exercises.map((ex) => {
                 const isLocked = ex.premium && !isPremium;
                 const done = completedToday.has(ex.name);
                 const saved = savedWorkouts.has(ex.name);
                 const isLoading = loadingWorkout === ex.name;
                 const isSaving = savingWorkout === ex.name;
+
                 return (
-                  <div key={ex.name} className={`group rounded-xl bg-card p-6 shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5 ${done ? "ring-2 ring-success/40" : ""} ${isLocked ? "opacity-75" : ""}`}>
-                    <div className="flex items-start justify-between">
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-heading text-base font-bold text-primary">{ex.name}</h3>
-                        {ex.premium && (
-                          <Badge variant="outline" className="text-[10px] border-accent/30 text-accent gap-0.5">
+                  <div
+                    key={ex.name}
+                    className={`group overflow-hidden rounded-xl bg-card shadow-card transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1 ${done ? "ring-2 ring-success/40" : ""} ${isLocked ? "opacity-80" : ""}`}
+                  >
+                    {/* Image */}
+                    <div className="relative h-44 overflow-hidden">
+                      <img
+                        src={ex.image}
+                        alt={ex.name}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-card/80 via-transparent to-transparent" />
+                      {/* Level badge */}
+                      <div className="absolute top-3 right-3">
+                        <Badge variant="outline" className={`text-xs backdrop-blur-sm bg-card/60 ${levelColor(ex.level)}`}>
+                          {ex.level}
+                        </Badge>
+                      </div>
+                      {/* Premium badge */}
+                      {ex.premium && (
+                        <div className="absolute top-3 left-3">
+                          <Badge variant="outline" className="text-[10px] backdrop-blur-sm bg-card/60 border-accent/30 text-accent gap-0.5">
                             <Lock className="h-2.5 w-2.5" /> Premium
                           </Badge>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        {!isLocked && (
-                          <button
-                            onClick={() => toggleSave(ex.name, cat.key)}
-                            disabled={isSaving}
-                            className="text-muted-foreground hover:text-accent transition-colors disabled:opacity-50"
-                            title={saved ? "Unsave workout" : "Save workout"}
-                          >
-                            {isSaving ? (
-                              <Loader2 className="h-4 w-4 animate-spin" />
-                            ) : saved ? (
-                              <BookmarkCheck className="h-4 w-4 text-accent" />
-                            ) : (
-                              <Bookmark className="h-4 w-4" />
-                            )}
-                          </button>
-                        )}
-                        <Badge variant="outline" className={`text-xs ${levelColor(ex.level)}`}>{ex.level}</Badge>
+                        </div>
+                      )}
+                      {/* Category badge */}
+                      <div className="absolute bottom-3 left-3">
+                        <Badge variant="outline" className={`text-[10px] backdrop-blur-sm bg-card/60 ${cat.badgeColor}`}>
+                          <cat.icon className="h-2.5 w-2.5 mr-0.5" /> {cat.name}
+                        </Badge>
                       </div>
                     </div>
-                    <p className="mt-1 text-sm text-muted-foreground">{ex.muscle}</p>
-                    <div className="mt-4 flex gap-4 text-xs text-muted-foreground">
-                      <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{ex.duration}</span>
-                      <span className="flex items-center gap-1"><Flame className="h-3 w-3" />{ex.calories} cal</span>
-                      <span className="flex items-center gap-1"><BarChart3 className="h-3 w-3" />{ex.level}</span>
+
+                    {/* Content */}
+                    <div className="p-5">
+                      <h3 className="font-heading text-base font-bold text-foreground">{ex.name}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">{ex.muscle}</p>
+
+                      <div className="mt-3 flex gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1"><Clock className="h-3 w-3" />{ex.duration}</span>
+                        <span className="flex items-center gap-1"><Flame className="h-3 w-3" />{ex.calories} cal</span>
+                      </div>
+
+                      {/* Action Buttons */}
+                      <div className="mt-4 flex gap-2">
+                        {isLocked ? (
+                          <Button variant="outline" size="sm" className="flex-1 gap-1" asChild>
+                            <a href="/pricing"><Lock className="h-3 w-3" /> Upgrade to Unlock</a>
+                          </Button>
+                        ) : (
+                          <>
+                            <Button
+                              variant={done ? "success" : "coral"}
+                              size="sm"
+                              className="flex-1 gap-1"
+                              disabled={done || isLoading}
+                              onClick={() => markComplete(ex.name, cat.key, ex.duration, ex.calories)}
+                            >
+                              {isLoading ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : done ? (
+                                <><CheckCircle2 className="h-3.5 w-3.5" /> Completed</>
+                              ) : (
+                                <><Play className="h-3.5 w-3.5" /> Start Workout</>
+                              )}
+                            </Button>
+                            <Button
+                              variant={saved ? "secondary" : "outline"}
+                              size="sm"
+                              className="gap-1"
+                              disabled={isSaving}
+                              onClick={() => toggleSave(ex.name, cat.key)}
+                            >
+                              {isSaving ? (
+                                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                              ) : saved ? (
+                                <><BookmarkCheck className="h-3.5 w-3.5 text-accent" /> Saved</>
+                              ) : (
+                                <><Bookmark className="h-3.5 w-3.5" /> Save</>
+                              )}
+                            </Button>
+                          </>
+                        )}
+                      </div>
                     </div>
-                    {isLocked ? (
-                      <Button variant="outline" size="sm" className="w-full mt-4 gap-1" asChild>
-                        <a href="/pricing"><Lock className="h-3 w-3" /> Upgrade to Unlock</a>
-                      </Button>
-                    ) : (
-                      <Button
-                        variant={done ? "success" : "coral"}
-                        size="sm"
-                        className="w-full mt-4"
-                        disabled={done || isLoading}
-                        onClick={() => markComplete(ex.name, cat.key, ex.duration, ex.calories)}
-                      >
-                        {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : done ? <><CheckCircle2 className="h-4 w-4" /> Completed</> : "Mark Complete"}
-                      </Button>
-                    )}
                   </div>
                 );
               })}
