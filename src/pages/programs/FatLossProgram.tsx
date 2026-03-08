@@ -8,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import ProgramWorkoutCard, { type ProgramWeek } from "@/components/ProgramWorkoutCard";
 import WorkoutCongrats from "@/components/WorkoutCongrats";
+import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
 import fatLossImg from "@/assets/programs/fat-loss.jpg";
 
 const weeks: ProgramWeek[] = [
@@ -227,7 +228,8 @@ const FatLossProgram = () => {
       {/* Hero */}
       <section className="relative overflow-hidden bg-primary">
         <img src={fatLossImg} alt="Fat Loss Program" className="absolute inset-0 h-full w-full object-cover opacity-30" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary/60" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/75 to-primary/50" />
+        <FloatingFitnessIcons />
         <div className="container relative z-10 py-16 md:py-24">
           <Link to="/workouts" className="mb-6 inline-flex items-center gap-1 text-sm text-primary-foreground/70 hover:text-primary-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" /> Back to Workouts
@@ -284,14 +286,15 @@ const FatLossProgram = () => {
           </h2>
           <p className="text-muted-foreground mb-8">Complete each workout to progress through the program.</p>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {weeks[activeWeek].workouts.map((wo) => (
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {weeks[activeWeek].workouts.map((wo, i) => (
               <ProgramWorkoutCard
                 key={wo.name}
                 workout={wo}
                 completed={completed.has(wo.name)}
                 loading={loading === wo.name}
                 onComplete={() => markComplete(wo.name, wo.duration, wo.calories)}
+                index={i}
               />
             ))}
           </div>
