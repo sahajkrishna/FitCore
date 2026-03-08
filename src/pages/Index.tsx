@@ -220,6 +220,9 @@ const Index = () => {
         </div>
       </section>
 
+      {/* Transformation Results */}
+      <TransformationResults />
+
       {/* CTA */}
       <section ref={cta.ref} className="relative overflow-hidden bg-primary">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,hsl(0_100%_71%/0.15),transparent_50%)]" />
