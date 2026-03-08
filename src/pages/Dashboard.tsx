@@ -91,6 +91,8 @@ const Dashboard = () => {
   const [displayName, setDisplayName] = useState("");
   const [recentWorkouts, setRecentWorkouts] = useState<WorkoutEntry[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<SavedWorkout[]>([]);
+  const [aiPlans, setAiPlans] = useState<AiPlan[]>([]);
+  const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
   const [weeklyData, setWeeklyData] = useState<{ day: string; count: number }[]>([]);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
   const [isPremiumProfile, setIsPremiumProfile] = useState(false);
