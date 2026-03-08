@@ -158,6 +158,7 @@ const DayCard = ({ day, index }: { day: WorkoutDay; index: number }) => {
 const AiWorkoutGenerator = () => {
   const { toast } = useToast();
   const { user } = useAuth();
+  const { isPremium, loading: premiumLoading } = usePremiumStatus();
   const navigate = useNavigate();
   const [goal, setGoal] = useState("");
   const [level, setLevel] = useState("");
