@@ -254,6 +254,7 @@ const Pricing = () => {
           </p>
         </div>
       </section>
+      </RevealSection>
     </Layout>
   );
 };

@@ -297,6 +297,7 @@ const Workouts = () => {
               })}
             </div>
           </div>
+          </RevealSection>
         ))}
       </section>
     </Layout>

@@ -49,6 +49,7 @@ const Blog = () => (
               </span>
             </div>
           </article>
+          </RevealSection>
         ))}
       </div>
     </section>

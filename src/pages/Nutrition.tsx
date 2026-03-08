@@ -105,6 +105,7 @@ const Nutrition = () => {
                   </div>
                 </div>
               </article>
+              </RevealSection>
             );
           })}
         </div>
