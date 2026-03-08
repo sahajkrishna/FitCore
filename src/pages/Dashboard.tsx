@@ -169,7 +169,9 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="container py-10 md:py-16 space-y-10">
+      <div className="space-y-0">
+        {/* Main container with padding */}
+        <div className="container py-10 md:py-16 space-y-10">
         {/* Hero Banner */}
         <section className="relative overflow-hidden rounded-2xl shadow-lg">
           <img src={heroBanner} alt="Modern gym with warm lighting" className="w-full h-56 sm:h-72 md:h-80 object-cover" loading="lazy" />
