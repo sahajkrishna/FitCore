@@ -164,6 +164,23 @@ const AiWorkoutGenerator = () => {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState(LOADING_MESSAGES[0]);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const msgInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (loading) {
+      let idx = 0;
+      setLoadingMsg(LOADING_MESSAGES[0]);
+      msgInterval.current = setInterval(() => {
+        idx = (idx + 1) % LOADING_MESSAGES.length;
+        setLoadingMsg(LOADING_MESSAGES[idx]);
+      }, 2500);
+    } else {
+      if (msgInterval.current) clearInterval(msgInterval.current);
+    }
+    return () => { if (msgInterval.current) clearInterval(msgInterval.current); };
+  }, [loading]);
 
   const handleSave = async () => {
     if (!user) {
