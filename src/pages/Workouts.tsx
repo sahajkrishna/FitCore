@@ -186,8 +186,9 @@ const Workouts = () => {
       <FeaturedPrograms />
 
       <section className="container py-16 md:py-20">
-        {categories.map((cat) => (
-          <div key={cat.name} className="mb-16 last:mb-0">
+        {categories.map((cat, ci) => (
+          <RevealSection key={cat.name} delay={ci * 100}>
+          <div className="mb-16 last:mb-0">
             <div className="flex items-center gap-3 mb-8">
               <div className={`flex h-10 w-10 items-center justify-center rounded-lg ${cat.color}`}>
                 <cat.icon className="h-5 w-5" />
