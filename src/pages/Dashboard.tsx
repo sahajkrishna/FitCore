@@ -15,6 +15,8 @@ import heroBanner from "@/assets/hero-dashboard.jpg";
 import categoryStrength from "@/assets/category-strength.jpg";
 import categoryCardio from "@/assets/category-cardio.jpg";
 import categoryFlexibility from "@/assets/category-flexibility.jpg";
+import bgGymEquipment from "@/assets/bg-gym-equipment.jpg";
+import bgAthletes from "@/assets/bg-athletes.jpg";
 
 interface WorkoutEntry {
   id: string;
@@ -167,7 +169,9 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <div className="container py-10 md:py-16 space-y-10">
+      <div className="space-y-0">
+        {/* Main container with padding */}
+        <div className="container py-10 md:py-16 space-y-10">
         {/* Hero Banner */}
         <section className="relative overflow-hidden rounded-2xl shadow-lg">
           <img src={heroBanner} alt="Modern gym with warm lighting" className="w-full h-56 sm:h-72 md:h-80 object-cover" loading="lazy" />
@@ -271,8 +275,13 @@ const Dashboard = () => {
             ))}
           </div>
         </section>
+        </div>{/* end main container */}
 
-        {/* Subscription Status */}
+        {/* Gym Equipment Background Section */}
+        <section className="relative py-16 my-0">
+          <img src={bgGymEquipment} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/92" />
+          <div className="container relative z-10 space-y-10">
         <section>
           <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
             <Crown className="h-5 w-5 text-accent" /> Subscription Status
@@ -406,6 +415,14 @@ const Dashboard = () => {
             </div>
           )}
         </section>
+          </div>{/* end gym equipment bg container */}
+        </section>{/* end gym equipment bg section */}
+
+        {/* Athletes Background Section */}
+        <section className="relative py-16">
+          <img src={bgAthletes} alt="" className="absolute inset-0 w-full h-full object-cover" loading="lazy" aria-hidden="true" />
+          <div className="absolute inset-0 bg-background/93" />
+          <div className="container relative z-10 space-y-10">
 
         {/* Workout History */}
         <section>
@@ -462,6 +479,8 @@ const Dashboard = () => {
             <p><span className="font-medium text-foreground">Member since:</span> <span className="text-muted-foreground">{user?.created_at ? new Date(user.created_at).toLocaleDateString() : "—"}</span></p>
           </CardContent>
         </Card>
+          </div>{/* end athletes bg container */}
+        </section>{/* end athletes bg section */}
       </div>
     </Layout>
   );
