@@ -247,8 +247,8 @@ const FatLossProgram = () => {
               <span>{completedCount} of {totalWorkouts} workouts completed</span>
               <span className="font-bold text-accent">{progress}%</span>
             </div>
-            <div className="h-2.5 w-full rounded-full bg-primary-foreground/10">
-              <div className="h-full rounded-full bg-accent transition-all duration-700" style={{ width: `${progress}%` }} />
+            <div className="h-3 w-full rounded-full bg-primary-foreground/10 overflow-hidden">
+              <div className="h-full rounded-full bg-gradient-to-r from-accent to-primary transition-all duration-1000 ease-out" style={{ width: `${progress}%` }} />
             </div>
           </div>
         </div>
