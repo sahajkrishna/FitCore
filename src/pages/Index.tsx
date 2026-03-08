@@ -3,6 +3,7 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
 import { ArrowRight, Dumbbell, Heart, Zap, Target, Users, TrendingUp, Quote, Flame, Timer, Activity } from "lucide-react";
+import TransformationResults from "@/components/TransformationResults";
 
 import heroImg from "@/assets/hero-dashboard.jpg";
 import strengthImg from "@/assets/category-strength.jpg";
@@ -218,6 +219,9 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Transformation Results */}
+      <TransformationResults />
 
       {/* CTA */}
       <section ref={cta.ref} className="relative overflow-hidden bg-primary">
