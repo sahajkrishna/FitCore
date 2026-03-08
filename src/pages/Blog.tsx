@@ -1,6 +1,8 @@
 import Layout from "@/components/Layout";
 import { Calendar, Clock, ArrowRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import PageHero from "@/components/PageHero";
+import heroBlogImg from "@/assets/hero-blog.jpg";
 
 const posts = [
   { title: "5 Compound Exercises Every Beginner Should Master", category: "Training", date: "Mar 5, 2026", readTime: "6 min", excerpt: "Compound movements recruit multiple muscle groups simultaneously, making them the most efficient way to build strength and muscle as a beginner." },
@@ -18,12 +20,13 @@ const catColor = (c: string) => {
 
 const Blog = () => (
   <Layout>
-    <section className="bg-primary">
-      <div className="container py-16 md:py-20">
-        <h1 className="font-heading text-3xl font-extrabold text-primary-foreground md:text-5xl">Resources & Blog</h1>
-        <p className="mt-4 max-w-lg text-primary-foreground/70">Stay informed with our latest articles on training, nutrition, recovery, and overall wellness.</p>
-      </div>
-    </section>
+      <PageHero
+        image={heroBlogImg}
+        headline="Fitness Knowledge Hub"
+        description="Read expert tips, fitness strategies, and health insights."
+        ctaLabel="Read Articles"
+        ctaHref="#articles"
+      />
 
     <section className="container py-16 md:py-20">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

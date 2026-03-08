@@ -8,6 +8,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import FeaturedPrograms from "@/components/FeaturedPrograms";
+import PageHero from "@/components/PageHero";
+import heroWorkoutsImg from "@/assets/hero-workouts.jpg";
 
 // Exercise images
 import imgBarbellSquat from "@/assets/exercises/barbell-squat.jpg";
@@ -171,12 +173,13 @@ const Workouts = () => {
 
   return (
     <Layout>
-      <section className="bg-primary">
-        <div className="container py-16 md:py-20">
-          <h1 className="font-heading text-3xl font-extrabold text-primary-foreground md:text-5xl">Workout Library</h1>
-          <p className="mt-4 max-w-lg text-primary-foreground/70">Browse our curated collection of exercises organized by category. Perfect for all fitness levels.</p>
-        </div>
-      </section>
+      <PageHero
+        image={heroWorkoutsImg}
+        headline="Discover Powerful Workouts"
+        description="Explore strength, cardio, and flexibility workouts designed to transform your body."
+        ctaLabel="Browse Workouts"
+        ctaHref="#exercises"
+      />
 
       {/* Featured Programs */}
       <FeaturedPrograms />
