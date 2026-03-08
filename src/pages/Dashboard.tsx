@@ -5,9 +5,10 @@ import Layout from "@/components/Layout";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Zap, Heart, StretchHorizontal, CalendarDays, TrendingUp } from "lucide-react";
+import { Dumbbell, Apple, BookOpen, User, Clock, Flame, ArrowRight, Zap, Heart, StretchHorizontal, CalendarDays, TrendingUp, Bookmark, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { useToast } from "@/hooks/use-toast";
 
 interface WorkoutEntry {
   id: string;
@@ -16,6 +17,13 @@ interface WorkoutEntry {
   date_completed: string;
   duration: string | null;
   calories: string | null;
+}
+
+interface SavedWorkout {
+  id: string;
+  workout_name: string;
+  category: string;
+  saved_at: string;
 }
 
 const categoryIcon = (cat: string) => {
@@ -38,15 +46,16 @@ const categoryColor = (cat: string) => {
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const { toast } = useToast();
   const [displayName, setDisplayName] = useState("");
   const [recentWorkouts, setRecentWorkouts] = useState<WorkoutEntry[]>([]);
+  const [savedWorkouts, setSavedWorkouts] = useState<SavedWorkout[]>([]);
   const [weeklyData, setWeeklyData] = useState<{ day: string; count: number }[]>([]);
   const [totalThisWeek, setTotalThisWeek] = useState(0);
 
   useEffect(() => {
     if (!user) return;
 
-    // Fetch profile
     supabase
       .from("profiles")
       .select("display_name")
@@ -56,7 +65,6 @@ const Dashboard = () => {
         if (data?.display_name) setDisplayName(data.display_name);
       });
 
-    // Fetch recent workouts (last 10)
     supabase
       .from("workout_progress")
       .select("*")
@@ -67,7 +75,15 @@ const Dashboard = () => {
         if (data) setRecentWorkouts(data as WorkoutEntry[]);
       });
 
-    // Fetch weekly data (last 7 days)
+    supabase
+      .from("saved_workouts")
+      .select("*")
+      .eq("user_id", user.id)
+      .order("saved_at", { ascending: false })
+      .then(({ data }) => {
+        if (data) setSavedWorkouts(data as SavedWorkout[]);
+      });
+
     const days = Array.from({ length: 7 }, (_, i) => {
       const d = new Date();
       d.setDate(d.getDate() - (6 - i));
@@ -84,9 +100,7 @@ const Dashboard = () => {
       .then(({ data }) => {
         const counts: Record<string, number> = {};
         const dayLabels = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-        days.forEach((d) => {
-          counts[dayLabels[d.getDay()]] = 0;
-        });
+        days.forEach((d) => { counts[dayLabels[d.getDay()]] = 0; });
         if (data) {
           data.forEach((entry) => {
             const d = new Date(entry.date_completed);
@@ -98,6 +112,14 @@ const Dashboard = () => {
         setWeeklyData(days.map((d) => ({ day: dayLabels[d.getDay()], count: counts[dayLabels[d.getDay()]] || 0 })));
       });
   }, [user]);
+
+  const removeSaved = async (id: string, name: string) => {
+    const { error } = await supabase.from("saved_workouts").delete().eq("id", id);
+    if (!error) {
+      setSavedWorkouts((prev) => prev.filter((w) => w.id !== id));
+      toast({ title: "Removed", description: `${name} removed from saved workouts.` });
+    }
+  };
 
   const quickLinks = [
     { icon: Dumbbell, title: "Workout Library", desc: "Browse exercises & programs", to: "/workouts", color: "bg-accent/10 text-accent" },
@@ -188,7 +210,57 @@ const Dashboard = () => {
           </Card>
         </section>
 
-        {/* Recent Workout History */}
+        {/* Saved Workouts */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2">
+              <Bookmark className="h-5 w-5 text-accent" /> Saved Workouts
+            </h2>
+            <Link to="/workouts">
+              <Button variant="ghost" size="sm" className="text-muted-foreground">
+                Browse more <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
+            </Link>
+          </div>
+          <Card className="border-border/60">
+            <CardContent className="p-0 divide-y divide-border">
+              {savedWorkouts.length === 0 ? (
+                <p className="text-sm text-muted-foreground text-center py-8">
+                  No saved workouts yet. Save workouts from the <Link to="/workouts" className="text-accent underline">Workout Library</Link>!
+                </p>
+              ) : (
+                savedWorkouts.map((w) => {
+                  const Icon = categoryIcon(w.category);
+                  return (
+                    <div key={w.id} className="flex items-center justify-between px-5 py-4 hover:bg-muted/40 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-muted/60">
+                          <Icon className={`h-4 w-4 ${categoryColor(w.category)}`} />
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-foreground">{w.workout_name}</p>
+                          <p className="text-xs text-muted-foreground capitalize">
+                            {w.category} · Saved {new Date(w.saved_at).toLocaleDateString()}
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        onClick={() => removeSaved(w.id, w.workout_name)}
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  );
+                })
+              )}
+            </CardContent>
+          </Card>
+        </section>
+
+        {/* Workout History */}
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2">

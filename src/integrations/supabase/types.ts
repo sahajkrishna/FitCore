@@ -41,6 +41,30 @@ export type Database = {
         }
         Relationships: []
       }
+      saved_workouts: {
+        Row: {
+          category: string
+          id: string
+          saved_at: string
+          user_id: string
+          workout_name: string
+        }
+        Insert: {
+          category: string
+          id?: string
+          saved_at?: string
+          user_id: string
+          workout_name: string
+        }
+        Update: {
+          category?: string
+          id?: string
+          saved_at?: string
+          user_id?: string
+          workout_name?: string
+        }
+        Relationships: []
+      }
       workout_progress: {
         Row: {
           calories: string | null
