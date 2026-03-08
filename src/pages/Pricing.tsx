@@ -165,9 +165,9 @@ const Pricing = () => {
 
       <section className="container -mt-10 pb-20 md:-mt-14">
         <div className="mx-auto grid max-w-4xl gap-6 md:grid-cols-2">
-          {plans.map((plan) => (
+          {plans.map((plan, i) => (
+            <RevealSection key={plan.name} delay={i * 150}>
             <div
-              key={plan.name}
               className={`relative flex flex-col rounded-2xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover ${
                 plan.highlighted
                   ? "ring-2 ring-accent scale-[1.02] md:scale-105"
