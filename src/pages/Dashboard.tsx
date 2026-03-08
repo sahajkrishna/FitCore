@@ -34,6 +34,15 @@ interface SavedWorkout {
   saved_at: string;
 }
 
+interface AiPlan {
+  id: string;
+  fitness_goal: string;
+  experience_level: string;
+  days_per_week: number;
+  workout_plan: any;
+  created_at: string;
+}
+
 const categoryIcon = (cat: string) => {
   switch (cat) {
     case "strength": return Dumbbell;
