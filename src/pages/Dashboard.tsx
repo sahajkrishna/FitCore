@@ -157,6 +157,26 @@ const Dashboard = () => {
         }
         setWeeklyData(days.map((d) => ({ day: dayLabels[d.getDay()], count: counts[dayLabels[d.getDay()]] || 0 })));
       });
+
+    // Fetch program progress
+    Promise.all(
+      programDefs.map(async (prog) => {
+        const { data } = await supabase
+          .from("workout_progress")
+          .select("workout_name")
+          .eq("user_id", user.id)
+          .eq("category", prog.category);
+        return {
+          slug: prog.slug,
+          title: prog.title,
+          total: prog.total,
+          completed: data?.length || 0,
+          color: prog.color,
+        };
+      })
+    ).then((results) => {
+      setProgramProgress(results.filter((p) => p.completed > 0));
+    });
   }, [user]);
 
   const removeSaved = async (id: string, name: string) => {
