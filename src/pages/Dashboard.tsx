@@ -226,7 +226,7 @@ const Dashboard = () => {
                         <Badge variant="default" className="bg-accent text-accent-foreground text-[10px]">Active</Badge>
                       </div>
                       <p className="text-xs text-muted-foreground mt-0.5">
-                        ₹{(subscription.amount / 100).toFixed(0)}/{subscription.currency} · Renews {new Date(subscription.expires_at).toLocaleDateString()}
+                        ₹{(subscription.amount / 100).toFixed(0)}/{subscription.currency} · Renews {new Date(subscription.subscription_end_date).toLocaleDateString()}
                       </p>
                     </div>
                   </div>
