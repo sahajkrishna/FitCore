@@ -11,6 +11,7 @@ import challengeImg from "@/assets/programs/30-day-challenge.jpg";
 const programs = [
   {
     title: "Fat Loss Program",
+    slug: "/programs/fat-loss",
     image: fatLossImg,
     duration: "8 Weeks",
     difficulty: "Intermediate",
