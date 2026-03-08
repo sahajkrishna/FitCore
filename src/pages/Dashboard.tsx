@@ -15,6 +15,8 @@ import heroBanner from "@/assets/hero-dashboard.jpg";
 import categoryStrength from "@/assets/category-strength.jpg";
 import categoryCardio from "@/assets/category-cardio.jpg";
 import categoryFlexibility from "@/assets/category-flexibility.jpg";
+import bgGymEquipment from "@/assets/bg-gym-equipment.jpg";
+import bgAthletes from "@/assets/bg-athletes.jpg";
 
 interface WorkoutEntry {
   id: string;
