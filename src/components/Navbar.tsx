@@ -33,17 +33,27 @@ const Navbar = () => {
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
-          {links.map((l) => (
-            <Link
-              key={l.to}
-              to={l.to}
-              className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                pathname === l.to ? "bg-primary text-primary-foreground" : "text-foreground/70 hover:text-foreground"
-              }`}
-            >
-              {l.label}
-            </Link>
-          ))}
+          {links.map((l) => {
+            const isActive = l.to === "/" ? pathname === "/" : pathname.startsWith(l.to);
+            return (
+              <Link
+                key={l.to}
+                to={l.to}
+                className={`relative rounded-full px-4 py-2 text-sm font-medium transition-all duration-200 cursor-pointer ${
+                  isActive
+                    ? "bg-accent/10 text-accent"
+                    : "text-foreground/60 hover:text-foreground hover:bg-accent/5"
+                }`}
+              >
+                {l.label}
+                <span
+                  className={`absolute bottom-0.5 left-1/2 -translate-x-1/2 h-0.5 rounded-full bg-accent transition-all duration-200 ${
+                    isActive ? "w-4" : "w-0"
+                  }`}
+                />
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="hidden items-center gap-2 md:flex">
