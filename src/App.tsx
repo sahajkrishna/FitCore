@@ -8,6 +8,7 @@ import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Workouts from "./pages/Workouts";
 import Nutrition from "./pages/Nutrition";
+import NutritionGuide from "./pages/NutritionGuide";
 import Blog from "./pages/Blog";
 import BlogArticle from "./pages/BlogArticle";
 import Login from "./pages/Login";
@@ -33,6 +34,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/workouts" element={<Workouts />} />
             <Route path="/nutrition" element={<Nutrition />} />
+            <Route path="/nutrition/:slug" element={<NutritionGuide />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogArticle />} />
             <Route path="/login" element={<Login />} />
