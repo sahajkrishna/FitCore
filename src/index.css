@@ -63,6 +63,11 @@
     @apply bg-background text-foreground;
     font-family: var(--font-body);
     line-height: 1.7;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 10% 20%, hsl(var(--primary) / 0.03) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 90% 80%, hsl(var(--accent) / 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 50%, hsl(var(--success) / 0.02) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 
   h1, h2, h3, h4, h5, h6 {
