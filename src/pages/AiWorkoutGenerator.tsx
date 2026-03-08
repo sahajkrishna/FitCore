@@ -44,6 +44,15 @@ const EXPERIENCE_LEVELS = [
   { value: "advanced", label: "Advanced", icon: Zap, desc: "Seasoned athlete" },
 ];
 
+const LOADING_MESSAGES = [
+  "Building your personalized workout...",
+  "Analyzing your fitness goals...",
+  "Selecting the best exercises for you...",
+  "Crafting your weekly schedule...",
+  "Adding rest days for recovery...",
+  "Almost there — finalizing your plan...",
+];
+
 const DAY_COLORS: Record<string, string> = {
   Monday: "from-accent/20 to-accent/5",
   Tuesday: "from-primary/20 to-primary/5",
