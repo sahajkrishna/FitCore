@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import FeaturedPrograms from "@/components/FeaturedPrograms";
 import PageHero from "@/components/PageHero";
+import RevealSection from "@/components/RevealSection";
 import heroWorkoutsImg from "@/assets/hero-workouts.jpg";
 
 // Exercise images
