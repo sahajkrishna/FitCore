@@ -21,6 +21,7 @@ const programs = [
   },
   {
     title: "Strength Builder",
+    slug: "/programs/strength-builder",
     image: strengthImg,
     duration: "12 Weeks",
     difficulty: "Advanced",
