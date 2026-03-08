@@ -513,6 +513,95 @@ const Dashboard = () => {
             </div>
           )}
         </section>
+
+        {/* AI Workout Plans */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-accent" /> AI Workout Plans
+            </h2>
+            <Link to="/ai-workout">
+              <Button variant="ghost" size="sm" className="text-muted-foreground">
+                Generate new <ArrowRight className="ml-1 h-3 w-3" />
+              </Button>
+            </Link>
+          </div>
+          {aiPlans.length === 0 ? (
+            <Card className="border-border/60">
+              <CardContent className="py-10 text-center">
+                <Sparkles className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+                <p className="text-sm text-muted-foreground">
+                  No AI plans yet. <Link to="/ai-workout" className="text-accent underline">Generate one now</Link>!
+                </p>
+              </CardContent>
+            </Card>
+          ) : (
+            <div className="space-y-3">
+              {aiPlans.map((ap) => {
+                const plan = ap.workout_plan;
+                const isExpanded = expandedPlan === ap.id;
+                const workoutDayCount = plan?.days?.filter((d: any) => !d.isRestDay)?.length ?? 0;
+                return (
+                  <Card key={ap.id} className="border-border/60 overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-card-hover)]">
+                    <button
+                      onClick={() => setExpandedPlan(isExpanded ? null : ap.id)}
+                      className="w-full text-left"
+                    >
+                      <CardContent className="flex items-center justify-between py-4 px-5">
+                        <div className="flex items-center gap-3 min-w-0">
+                          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+                            <Sparkles className="h-5 w-5 text-accent" />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-sm font-semibold text-foreground truncate">{plan?.title || ap.fitness_goal}</p>
+                            <p className="text-xs text-muted-foreground capitalize">
+                              {ap.experience_level} · {ap.days_per_week} days/week · {new Date(ap.created_at).toLocaleDateString()}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Badge variant="secondary" className="text-xs hidden sm:flex">{workoutDayCount} workouts</Badge>
+                          {isExpanded ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+                        </div>
+                      </CardContent>
+                    </button>
+                    {isExpanded && plan?.days && (
+                      <div className="border-t border-border px-5 pb-5 pt-3 space-y-2">
+                        {plan.summary && <p className="text-sm text-muted-foreground italic mb-3">{plan.summary}</p>}
+                        {plan.days.map((day: any, i: number) => (
+                          <div key={i} className={`rounded-lg p-3 ${day.isRestDay ? "bg-muted/30" : "bg-accent/5"}`}>
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center gap-2">
+                                {day.isRestDay ? <Coffee className="h-4 w-4 text-muted-foreground" /> : <Dumbbell className="h-4 w-4 text-accent" />}
+                                <span className="text-sm font-semibold">{day.day}</span>
+                                <span className="text-xs text-muted-foreground">— {day.focus}</span>
+                              </div>
+                              {!day.isRestDay && <span className="text-xs text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" />{day.duration}</span>}
+                            </div>
+                            {!day.isRestDay && day.exercises?.length > 0 && (
+                              <div className="mt-2 grid gap-1">
+                                {day.exercises.map((ex: any, j: number) => (
+                                  <p key={j} className="text-xs text-foreground/80 pl-6">
+                                    {ex.name} — {ex.sets} × {ex.reps} ({ex.rest} rest)
+                                  </p>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                        <div className="pt-2 flex justify-end">
+                          <Button variant="ghost" size="sm" className="text-destructive hover:text-destructive" onClick={() => removeAiPlan(ap.id)}>
+                            <Trash2 className="h-3.5 w-3.5 mr-1" /> Remove
+                          </Button>
+                        </div>
+                      </div>
+                    )}
+                  </Card>
+                );
+              })}
+            </div>
+          )}
+        </section>
           </div>{/* end gym equipment bg container */}
         </section>{/* end gym equipment bg section */}
 
