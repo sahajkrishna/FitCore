@@ -80,11 +80,13 @@ const Nutrition = () => {
                     <PremiumGate message={`"${g.title}" is a premium nutrition guide. Upgrade to unlock all guides.`} />
                   </div>
                 </article>
+                </RevealSection>
               );
             }
 
             return (
-              <article key={g.title} className="rounded-xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover md:p-10">
+              <RevealSection key={g.title} delay={i * 120}>
+              <article className="rounded-xl bg-card p-8 shadow-card transition-all duration-300 hover:shadow-card-hover md:p-10">
                 <div className="flex items-start gap-4">
                   <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-success/10">
                     <g.icon className="h-6 w-6 text-success" />
