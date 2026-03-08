@@ -47,12 +47,14 @@ function useInView(threshold = 0.15) {
 
 function useParallax() {
   const [offset, setOffset] = useState(0);
+  const raf = useRef(0);
   const handleScroll = useCallback(() => {
-    setOffset(window.scrollY);
+    cancelAnimationFrame(raf.current);
+    raf.current = requestAnimationFrame(() => setOffset(window.scrollY));
   }, []);
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => { window.removeEventListener("scroll", handleScroll); cancelAnimationFrame(raf.current); };
   }, [handleScroll]);
   return offset;
 }
