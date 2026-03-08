@@ -92,9 +92,9 @@ const Dashboard = () => {
 
     supabase
       .from("subscriptions")
-      .select("plan, status, expires_at, created_at, amount, currency")
+      .select("plan, subscription_status, subscription_end_date, subscription_start_date, amount, currency")
       .eq("user_id", user.id)
-      .order("created_at", { ascending: false })
+      .order("subscription_start_date", { ascending: false })
       .limit(1)
       .then(({ data }) => {
         if (data && data.length > 0) setSubscription(data[0] as SubscriptionInfo);
