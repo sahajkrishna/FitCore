@@ -86,13 +86,11 @@ const Index = () => {
           className="absolute inset-0 h-[110%] w-full object-cover will-change-transform"
           style={{ transform: `translateY(${scrollY * -0.2}px)` }}
         />
-        {/* Animated gradient overlay */}
+        {/* Dark gradient overlay for readability */}
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(135deg, hsl(var(--primary) / 0.92), hsl(var(--primary) / 0.65) 50%, hsl(var(--accent) / 0.35))",
-            backgroundSize: "200% 200%",
-            animation: "gradient-shift 8s ease infinite",
+            background: "linear-gradient(135deg, hsl(var(--primary) / 0.88) 0%, hsl(var(--primary) / 0.72) 40%, hsl(var(--primary) / 0.55) 100%)",
           }}
         />
         {/* Vignette */}
