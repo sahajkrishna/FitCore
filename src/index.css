@@ -112,3 +112,28 @@
 .btn-glow:hover::after {
   opacity: 1;
 }
+
+/* Subtle interactive element highlights */
+a, button, [role="button"], input[type="submit"], .cursor-pointer {
+  cursor: pointer;
+}
+
+/* Soft highlight ring on interactive focus-visible */
+a:focus-visible,
+button:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid hsl(var(--accent) / 0.5);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Card hover shimmer */
+.group:hover .group-hover\:shimmer {
+  opacity: 1;
+}
+
+/* Interactive card subtle inner glow on hover */
+article.group:hover,
+a.group:hover {
+  box-shadow: var(--shadow-card-hover), inset 0 1px 0 0 hsl(var(--accent) / 0.06);
+}
