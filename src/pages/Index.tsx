@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useRef, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/Layout";
-import { ArrowRight, Dumbbell, Heart, Zap, Target, Users, TrendingUp, Quote, Flame, Timer, Activity } from "lucide-react";
+import { ArrowRight, Dumbbell, Heart, Zap, Target, Users, TrendingUp, Quote, Flame, Timer, Activity, Footprints, PersonStanding } from "lucide-react";
 import TransformationResults from "@/components/TransformationResults";
 import RevealSection from "@/components/RevealSection";
 
