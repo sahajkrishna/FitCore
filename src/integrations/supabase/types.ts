@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      ai_workout_plans: {
+        Row: {
+          created_at: string
+          days_per_week: number
+          experience_level: string
+          fitness_goal: string
+          id: string
+          user_id: string
+          workout_plan: Json
+        }
+        Insert: {
+          created_at?: string
+          days_per_week: number
+          experience_level: string
+          fitness_goal: string
+          id?: string
+          user_id: string
+          workout_plan: Json
+        }
+        Update: {
+          created_at?: string
+          days_per_week?: number
+          experience_level?: string
+          fitness_goal?: string
+          id?: string
+          user_id?: string
+          workout_plan?: Json
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
