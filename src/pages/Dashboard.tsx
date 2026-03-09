@@ -12,6 +12,8 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { useToast } from "@/hooks/use-toast";
 import { usePremiumStatus } from "@/hooks/use-premium-status";
 import PremiumGate from "@/components/PremiumGate";
+import { useWorkoutStreak } from "@/hooks/use-workout-streak";
+import { useRecommendedWorkout } from "@/hooks/use-recommended-workout";
 import heroBanner from "@/assets/hero-dashboard.jpg";
 import categoryStrength from "@/assets/category-strength.jpg";
 import categoryCardio from "@/assets/category-cardio.jpg";
