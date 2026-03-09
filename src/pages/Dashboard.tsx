@@ -91,6 +91,8 @@ const Dashboard = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const { isPremium } = usePremiumStatus();
+  const { streak, message: streakMessage } = useWorkoutStreak();
+  const { workout: recommendedWorkout } = useRecommendedWorkout();
   const [displayName, setDisplayName] = useState("");
   const [recentWorkouts, setRecentWorkouts] = useState<WorkoutEntry[]>([]);
   const [savedWorkouts, setSavedWorkouts] = useState<SavedWorkout[]>([]);
