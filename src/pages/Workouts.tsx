@@ -185,7 +185,7 @@ const Workouts = () => {
       {/* Featured Programs */}
       <FeaturedPrograms />
 
-      <section className="container py-16 md:py-20">
+      <section id="exercises" className="container py-16 md:py-20">
         {categories.map((cat, ci) => (
           <RevealSection key={cat.name} delay={ci * 100}>
           <div className="mb-16 last:mb-0">
