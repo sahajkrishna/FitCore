@@ -179,13 +179,13 @@ const Workouts = () => {
         headline="Discover Powerful Workouts"
         description="Explore strength, cardio, and flexibility workouts designed to transform your body."
         ctaLabel="Browse Workouts"
-        ctaHref="#exercises"
+        ctaOnClick={() => document.getElementById("exercises")?.scrollIntoView({ behavior: "smooth" })}
       />
 
       {/* Featured Programs */}
       <FeaturedPrograms />
 
-      <section className="container py-16 md:py-20">
+      <section id="exercises" className="container py-16 md:py-20">
         {categories.map((cat, ci) => (
           <RevealSection key={cat.name} delay={ci * 100}>
           <div className="mb-16 last:mb-0">
