@@ -295,7 +295,71 @@ const Dashboard = () => {
         </section>
         </RevealSection>
 
-        {/* Program Progress */}
+        {/* Workout Streak */}
+        {streak > 0 && (
+          <RevealSection>
+            <Card className="border-accent/30 bg-gradient-to-r from-accent/5 via-accent/10 to-accent/5 overflow-hidden">
+              <CardContent className="flex items-center gap-4 py-5 px-6">
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-accent/15">
+                  <Flame className="h-7 w-7 text-accent" />
+                </div>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="font-heading text-2xl font-extrabold text-accent">{streak}</p>
+                    <p className="text-sm font-semibold text-foreground">Day Streak</p>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-0.5">{streakMessage}</p>
+                </div>
+                <div className="hidden sm:flex items-center gap-1">
+                  {Array.from({ length: Math.min(streak, 7) }).map((_, i) => (
+                    <Flame key={i} className="h-4 w-4 text-accent/70" />
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </RevealSection>
+        )}
+
+        {/* Today's Recommended Workout */}
+        {recommendedWorkout && (
+          <RevealSection delay={50}>
+            <section>
+              <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
+                <Zap className="h-5 w-5 text-accent" /> Today's Recommended Workout
+              </h2>
+              <Card className="border-border/60 overflow-hidden transition-all duration-300 hover:shadow-card-hover hover:-translate-y-1">
+                <div className="flex flex-col sm:flex-row">
+                  <div className="flex-1 p-6">
+                    <div className="flex items-center gap-2 mb-2">
+                      <Badge variant="secondary" className="capitalize text-xs">{recommendedWorkout.category}</Badge>
+                      <Badge variant="outline" className="text-xs">{recommendedWorkout.difficulty}</Badge>
+                    </div>
+                    <h3 className="font-heading text-xl font-bold text-foreground">{recommendedWorkout.name}</h3>
+                    <p className="text-sm text-muted-foreground mt-2 leading-relaxed">{recommendedWorkout.description}</p>
+                    <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
+                      <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {recommendedWorkout.duration}</span>
+                      <span className="flex items-center gap-1"><Flame className="h-3.5 w-3.5" /> {recommendedWorkout.calories} cal</span>
+                    </div>
+                    <Link to="/workouts">
+                      <Button variant="coral" size="sm" className="mt-5 gap-1.5">
+                        <Play className="h-3.5 w-3.5" /> Start Workout
+                      </Button>
+                    </Link>
+                  </div>
+                  <div className={`hidden sm:flex w-32 items-center justify-center ${
+                    recommendedWorkout.category === "strength" ? "bg-accent/10" :
+                    recommendedWorkout.category === "cardio" ? "bg-destructive/10" : "bg-success/10"
+                  }`}>
+                    {recommendedWorkout.category === "strength" && <Dumbbell className="h-12 w-12 text-accent/40" />}
+                    {recommendedWorkout.category === "cardio" && <Heart className="h-12 w-12 text-destructive/40" />}
+                    {recommendedWorkout.category === "flexibility" && <StretchHorizontal className="h-12 w-12 text-success/40" />}
+                  </div>
+                </div>
+              </Card>
+            </section>
+          </RevealSection>
+        )}
+
         {programProgress.length > 0 && (
           <section>
             <h2 className="font-heading text-lg font-semibold text-foreground flex items-center gap-2 mb-4">
