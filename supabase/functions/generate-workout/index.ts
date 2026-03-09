@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -6,21 +7,67 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const VALID_LEVELS = ["beginner", "intermediate", "advanced"];
+
+function errorResponse(status: number, message: string) {
+  return new Response(JSON.stringify({ error: message }), {
+    status,
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
+  });
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS")
     return new Response(null, { headers: corsHeaders });
 
   try {
-    const { goal, level, daysPerWeek } = await req.json();
+    // --- Authentication ---
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return errorResponse(401, "Unauthorized");
+    }
+
+    const supabase = createClient(
+      Deno.env.get("SUPABASE_URL")!,
+      Deno.env.get("SUPABASE_ANON_KEY")!,
+      { global: { headers: { Authorization: authHeader } } }
+    );
+
+    const token = authHeader.replace("Bearer ", "");
+    const { data, error: claimsError } = await supabase.auth.getClaims(token);
+    if (claimsError || !data?.claims) {
+      return errorResponse(401, "Unauthorized");
+    }
+
+    // --- Input Validation ---
+    const body = await req.json();
+    const { goal, level, daysPerWeek } = body;
+
+    if (!goal || typeof goal !== "string" || goal.trim().length === 0 || goal.length > 500) {
+      return errorResponse(400, "Invalid goal: must be a non-empty string up to 500 characters");
+    }
+
+    if (!level || !VALID_LEVELS.includes(level)) {
+      return errorResponse(400, `Invalid level: must be one of ${VALID_LEVELS.join(", ")}`);
+    }
+
+    const days = Number(daysPerWeek);
+    if (!Number.isInteger(days) || days < 1 || days > 7) {
+      return errorResponse(400, "Invalid daysPerWeek: must be an integer between 1 and 7");
+    }
+
+    const sanitizedGoal = goal.trim().slice(0, 500);
+
+    // --- AI Generation ---
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) throw new Error("LOVABLE_API_KEY not configured");
 
     const systemPrompt = `You are an expert fitness coach. Create a personalized weekly workout plan. Be specific with exercises, sets, reps, rest times, and estimated duration. Include rest days. Add a short motivational tip for each workout day.`;
 
-    const userPrompt = `Create a ${daysPerWeek}-day per week workout plan for someone with the following:
-- Fitness goal: ${goal}
+    const userPrompt = `Create a ${days}-day per week workout plan for someone with the following:
+- Fitness goal: ${sanitizedGoal}
 - Experience level: ${level}
-- Workout days per week: ${daysPerWeek}
+- Workout days per week: ${days}
 
 Fill all 7 days of the week. Mark non-workout days as rest days.`;
 
@@ -92,31 +139,17 @@ Fill all 7 days of the week. Mark non-workout days as rest days.`;
 
     if (!response.ok) {
       const status = response.status;
-      if (status === 429)
-        return new Response(JSON.stringify({ error: "Rate limited" }), {
-          status: 429,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
-      if (status === 402)
-        return new Response(JSON.stringify({ error: "Payment required" }), {
-          status: 402,
-          headers: { ...corsHeaders, "Content-Type": "application/json" },
-        });
+      if (status === 429) return errorResponse(429, "Rate limited");
+      if (status === 402) return errorResponse(402, "Payment required");
       const t = await response.text();
       console.error("AI error:", status, t);
-      return new Response(JSON.stringify({ error: "AI error" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return errorResponse(500, "AI error");
     }
 
-    const data = await response.json();
-    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
+    const aiData = await response.json();
+    const toolCall = aiData.choices?.[0]?.message?.tool_calls?.[0];
     if (!toolCall) {
-      return new Response(JSON.stringify({ error: "No plan generated" }), {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
+      return errorResponse(500, "No plan generated");
     }
 
     const plan = JSON.parse(toolCall.function.arguments);
