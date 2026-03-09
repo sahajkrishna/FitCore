@@ -179,7 +179,7 @@ const Workouts = () => {
         headline="Discover Powerful Workouts"
         description="Explore strength, cardio, and flexibility workouts designed to transform your body."
         ctaLabel="Browse Workouts"
-        ctaHref="#exercises"
+        ctaOnClick={() => document.getElementById("exercises")?.scrollIntoView({ behavior: "smooth" })}
       />
 
       {/* Featured Programs */}
