@@ -39,6 +39,20 @@ serve(async (req) => {
       return errorResponse(401, "Unauthorized");
     }
 
+    // --- Premium Subscription Check ---
+    const userId = data.claims.sub as string;
+    const { data: sub } = await supabase
+      .from("subscriptions")
+      .select("id")
+      .eq("user_id", userId)
+      .eq("subscription_status", "active")
+      .gte("subscription_end_date", new Date().toISOString())
+      .limit(1)
+      .single();
+    if (!sub) {
+      return errorResponse(403, "Premium subscription required");
+    }
+
     // --- Input Validation ---
     const body = await req.json();
     const { goal, level, daysPerWeek } = body;
