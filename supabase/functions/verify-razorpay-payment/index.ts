@@ -97,15 +97,7 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Update premium_status in profiles
-    const { error: profileError } = await adminClient
-      .from("profiles")
-      .update({ premium_status: true })
-      .eq("user_id", userId);
-
-    if (profileError) {
-      console.error("Profile update error:", profileError);
-    }
+    // Premium status is now derived from the subscriptions table directly
 
     return new Response(
       JSON.stringify({ success: true, message: "Premium activated!" }),

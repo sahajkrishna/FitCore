@@ -255,7 +255,7 @@ const Dashboard = () => {
                 Push your limits, stay consistent, and transform your body. Your journey starts here.
               </p>
               <div className="flex items-center gap-3 pt-1">
-                {isPremiumProfile && (
+                {isPremium && (
                   <Badge className="bg-accent text-accent-foreground text-xs gap-1">
                     <Crown className="h-3 w-3" /> Premium Member
                   </Badge>
