@@ -100,7 +100,7 @@ const Dashboard = () => {
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
   const [weeklyData, setWeeklyData] = useState<{ day: string; count: number }[]>([]);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
-  const [isPremiumProfile, setIsPremiumProfile] = useState(false);
+  
   const [totalThisWeek, setTotalThisWeek] = useState(0);
   const [programProgress, setProgramProgress] = useState<ProgramProgress[]>([]);
 
