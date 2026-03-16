@@ -100,7 +100,7 @@ const Dashboard = () => {
   const [expandedPlan, setExpandedPlan] = useState<string | null>(null);
   const [weeklyData, setWeeklyData] = useState<{ day: string; count: number }[]>([]);
   const [subscription, setSubscription] = useState<SubscriptionInfo | null>(null);
-  const [isPremiumProfile, setIsPremiumProfile] = useState(false);
+  
   const [totalThisWeek, setTotalThisWeek] = useState(0);
   const [programProgress, setProgramProgress] = useState<ProgramProgress[]>([]);
 
@@ -109,12 +109,11 @@ const Dashboard = () => {
 
     supabase
       .from("profiles")
-      .select("display_name, premium_status")
+      .select("display_name")
       .eq("user_id", user.id)
       .single()
       .then(({ data }) => {
         if (data?.display_name) setDisplayName(data.display_name);
-        if (data?.premium_status) setIsPremiumProfile(true);
       });
 
     supabase
@@ -256,7 +255,7 @@ const Dashboard = () => {
                 Push your limits, stay consistent, and transform your body. Your journey starts here.
               </p>
               <div className="flex items-center gap-3 pt-1">
-                {isPremiumProfile && (
+                {isPremium && (
                   <Badge className="bg-accent text-accent-foreground text-xs gap-1">
                     <Crown className="h-3 w-3" /> Premium Member
                   </Badge>
