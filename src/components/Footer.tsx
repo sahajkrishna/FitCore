@@ -42,8 +42,9 @@ const Footer = () => (
           </div>
         </div>
       </div>
-      <div className="mt-10 border-t border-primary-foreground/10 pt-6 text-center text-xs text-primary-foreground/40">
-        © 2026 FitCore. All rights reserved.
+      <div className="mt-10 border-t border-primary-foreground/10 pt-6 space-y-2 text-center text-xs text-primary-foreground/40">
+        <p>FitCore provides educational fitness guidance and is not a substitute for professional medical advice.</p>
+        <p>© 2026 FitCore. All rights reserved.</p>
       </div>
     </div>
   </footer>
