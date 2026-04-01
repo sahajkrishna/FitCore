@@ -283,8 +283,14 @@ const Index = () => {
         </div>
       </section>
 
+      {/* AI Workout CTA */}
+      <AiWorkoutCTA />
+
       {/* Transformation Results */}
       <TransformationResults />
+
+      {/* Testimonials */}
+      <TestimonialsSection />
 
       {/* CTA */}
       <section ref={cta.ref} className="relative overflow-hidden bg-primary">
