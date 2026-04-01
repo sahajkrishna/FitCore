@@ -18,14 +18,25 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
 
     if (error) {
       toast.error(error.message);
       setLoading(false);
     } else {
       toast.success("Welcome back!");
-      navigate("/dashboard");
+      // Check if user has completed onboarding
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("fitness_goal")
+        .eq("user_id", data.user.id)
+        .single();
+
+      if (!profile?.fitness_goal) {
+        navigate("/onboarding");
+      } else {
+        navigate("/dashboard");
+      }
     }
   };
 
