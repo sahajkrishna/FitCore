@@ -120,20 +120,24 @@ const Pricing = () => {
         description: "Premium Plan — ₹499/month",
         order_id,
         handler: async (response: any) => {
-          const verifyRes = await supabase.functions.invoke("verify-razorpay-payment", {
-            body: {
-              razorpay_order_id: response.razorpay_order_id,
-              razorpay_payment_id: response.razorpay_payment_id,
-              razorpay_signature: response.razorpay_signature,
-            },
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          try {
+            const verifyRes = await supabase.functions.invoke("verify-razorpay-payment", {
+              body: {
+                razorpay_order_id: response.razorpay_order_id,
+                razorpay_payment_id: response.razorpay_payment_id,
+                razorpay_signature: response.razorpay_signature,
+              },
+              headers: { Authorization: `Bearer ${token}` },
+            });
 
-          if (verifyRes.error || !verifyRes.data?.success) {
-            toast({ title: "Verification Failed", description: "Payment could not be verified.", variant: "destructive" });
-          } else {
-            toast({ title: "🎉 Welcome to Premium!", description: "Your subscription is now active." });
-            setTimeout(() => navigate("/dashboard"), 1500);
+            if (verifyRes.error || !verifyRes.data?.success) {
+              toast({ title: "Verification Failed", description: "Payment could not be verified. Contact support if charged.", variant: "destructive" });
+            } else {
+              toast({ title: "🎉 Welcome to Premium!", description: "Your subscription is now active." });
+              setTimeout(() => navigate("/dashboard"), 1500);
+            }
+          } catch {
+            toast({ title: "Verification Error", description: "Could not verify payment. Please contact support.", variant: "destructive" });
           }
         },
         prefill: { email: user.email },
