@@ -5,6 +5,8 @@ import Layout from "@/components/Layout";
 import { ArrowRight, Dumbbell, Heart, Zap, Target, Users, TrendingUp, Quote, Flame, Timer, Activity, Footprints, PersonStanding } from "lucide-react";
 import TransformationResults from "@/components/TransformationResults";
 import RevealSection from "@/components/RevealSection";
+import TestimonialsSection from "@/components/TestimonialsSection";
+import AiWorkoutCTA from "@/components/AiWorkoutCTA";
 
 import heroImg from "@/assets/hero-dashboard.jpg";
 import strengthImg from "@/assets/category-strength.jpg";
