@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import ProgramWorkoutCard, { type ProgramWeek } from "@/components/ProgramWorkoutCard";
 import WorkoutCongrats from "@/components/WorkoutCongrats";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 import fatLossImg from "@/assets/programs/fat-loss.jpg";
 
 const weeks: ProgramWeek[] = [
@@ -181,6 +183,7 @@ const weeks: ProgramWeek[] = [
 const FatLossProgram = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isPremium, loading: premiumLoading } = usePremiumStatus();
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<string | null>(null);
   const [activeWeek, setActiveWeek] = useState(0);
@@ -222,6 +225,9 @@ const FatLossProgram = () => {
   const totalWorkouts = activeWorkouts.length;
   const completedCount = activeWorkouts.filter((wo) => completed.has(wo.name)).length;
   const progress = totalWorkouts > 0 ? Math.round((completedCount / totalWorkouts) * 100) : 0;
+
+  if (premiumLoading) return <Layout><div className="container py-20 text-center text-muted-foreground">Loading...</div></Layout>;
+  if (!isPremium) return <Layout><div className="container py-20"><PremiumGate message="The Fat Loss Program is available for Premium members only." /></div></Layout>;
 
   return (
     <Layout>
