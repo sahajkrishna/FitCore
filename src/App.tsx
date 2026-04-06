@@ -46,9 +46,9 @@ const App = () => (
             <Route path="/signup" element={<Signup />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/programs/fat-loss" element={<FatLossProgram />} />
-            <Route path="/programs/strength-builder" element={<StrengthBuilderProgram />} />
-            <Route path="/programs/30-day-challenge" element={<ThirtyDayChallenge />} />
+            <Route path="/programs/fat-loss" element={<ProtectedRoute><FatLossProgram /></ProtectedRoute>} />
+            <Route path="/programs/strength-builder" element={<ProtectedRoute><StrengthBuilderProgram /></ProtectedRoute>} />
+            <Route path="/programs/30-day-challenge" element={<ProtectedRoute><ThirtyDayChallenge /></ProtectedRoute>} />
             <Route path="/ai-workout" element={<AiWorkoutGenerator />} />
             <Route path="/about" element={<About />} />
             <Route path="/privacy" element={<Privacy />} />

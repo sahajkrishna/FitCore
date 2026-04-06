@@ -9,6 +9,8 @@ import { useToast } from "@/hooks/use-toast";
 import ProgramWorkoutCard, { type ProgramWeek } from "@/components/ProgramWorkoutCard";
 import WorkoutCongrats from "@/components/WorkoutCongrats";
 import FloatingFitnessIcons from "@/components/FloatingFitnessIcons";
+import { usePremiumStatus } from "@/hooks/use-premium-status";
+import PremiumGate from "@/components/PremiumGate";
 import fatLossImg from "@/assets/programs/fat-loss.jpg";
 
 const weeks: ProgramWeek[] = [
