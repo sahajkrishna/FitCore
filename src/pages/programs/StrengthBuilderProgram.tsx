@@ -183,6 +183,7 @@ const weeks: ProgramWeek[] = [
 const StrengthBuilderProgram = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const { isPremium, loading: premiumLoading } = usePremiumStatus();
   const [completed, setCompleted] = useState<Set<string>>(new Set());
   const [loading, setLoading] = useState<string | null>(null);
   const [activeWeek, setActiveWeek] = useState(0);
