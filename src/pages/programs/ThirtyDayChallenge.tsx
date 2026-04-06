@@ -227,6 +227,9 @@ const ThirtyDayChallenge = () => {
   const completedCount = activeWorkouts.filter((wo) => completed.has(wo.name)).length;
   const progress = totalWorkouts > 0 ? Math.round((completedCount / totalWorkouts) * 100) : 0;
 
+  if (premiumLoading) return <Layout><div className="container py-20 text-center text-muted-foreground">Loading...</div></Layout>;
+  if (!isPremium) return <Layout><div className="container py-20"><PremiumGate message="The 30-Day Challenge is available for Premium members only." /></div></Layout>;
+
   return (
     <Layout>
       <section className="relative overflow-hidden bg-primary">
