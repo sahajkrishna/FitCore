@@ -1,73 +1,63 @@
-# Welcome to your Lovable project
+# CoreFit Path — AI-Powered Fitness Platform
 
-## Project info
+> Personalized workout plans, real-time progress tracking, and AI-driven recommendations that adapt to you.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+🔗 **Live App:** [preview--corefit-path.lovable.app](https://preview--corefit-path.lovable.app/)
 
-## How can I edit this code?
+---
 
-There are several ways of editing your application.
+## Overview
 
-**Use Lovable**
+CoreFit Path solves the core problem with generic fitness apps — they treat every user the same. This platform uses AI to generate personalized workout plans based on individual goals, fitness levels, and progress, dynamically adapting recommendations over time.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+Built and deployed solo as part of the Applied GenAI cohort at **100x**.
 
-Changes made via Lovable will be committed automatically to this repo.
+---
 
-**Use your preferred IDE**
+## Features
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- AI-generated personalized workout plans
+- Real-time progress tracking dashboard
+- Dynamic recommendation engine that adapts based on user data
+- Clean, mobile-friendly UI
+- 10+ active users since launch
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+---
 
-Follow these steps:
+## Tech Stack
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+| Layer | Tool |
+|-------|------|
+| Frontend / Builder | Lovable (React) |
+| AI Layer | Claude API (Anthropic) |
+| Deployment | Vercel / Lovable Hosting |
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## Screenshots
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+> _Add screenshots of the dashboard and workout plan screen here._
+
+---
+
+## Getting Started
+
+This project was built with [Lovable](https://lovable.dev) and exported to GitHub.
+
+To run locally:
+
+```bash
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+To deploy:
+- Push to GitHub → auto-deploys via Vercel
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+---
 
-**Use GitHub Codespaces**
+## About the Builder
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Built by **Krishna Sahaj D V** — MBA graduate and AI builder specializing in no-code/AI-assisted product development.
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+🔗 [LinkedIn](https://www.linkedin.com/in/krishna-sahaj-d-v-7b623b190) • [GitHub](https://github.com/sahajkrishna)
