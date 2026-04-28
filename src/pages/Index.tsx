@@ -7,6 +7,7 @@ import TransformationResults from "@/components/TransformationResults";
 import RevealSection from "@/components/RevealSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import AiWorkoutCTA from "@/components/AiWorkoutCTA";
+import SocialProofStats from "@/components/SocialProofStats";
 
 import heroImg from "@/assets/hero-dashboard.jpg";
 import strengthImg from "@/assets/category-strength.jpg";
@@ -17,12 +18,6 @@ const categories = [
   { img: strengthImg, icon: Dumbbell, title: "Build Strength", desc: "Power up with effective strength training routines.", link: "/workouts" },
   { img: cardioImg, icon: Zap, title: "Boost Endurance", desc: "Improve stamina with energizing cardio workouts.", link: "/workouts" },
   { img: flexImg, icon: Heart, title: "Move Better", desc: "Stretch and recover with flexibility training.", link: "/workouts" },
-];
-
-const stats = [
-  { icon: Target, value: "200+", label: "Exercises" },
-  { icon: Users, value: "50K+", label: "Community Members" },
-  { icon: TrendingUp, value: "95%", label: "Success Rate" },
 ];
 
 const floatingIcons = [
@@ -77,7 +72,6 @@ const FloatingIcon = ({ Icon, size, x, y, delay, duration }: typeof floatingIcon
 const Index = () => {
   const quote = useInView();
   const cats = useInView();
-  const statsSection = useInView();
   const cta = useInView();
   const scrollY = useParallax();
 
@@ -223,24 +217,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Stats */}
-      <section ref={statsSection.ref} className="border-y border-border bg-card">
-        <div className="container grid grid-cols-1 divide-y divide-border py-0 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-          {stats.map((s, i) => (
-            <div
-              key={s.label}
-              className={`flex flex-col items-center gap-2 py-10 text-center transition-all duration-700 ${statsSection.visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
-              style={{ transitionDelay: `${i * 200}ms` }}
-            >
-              <div className={`flex h-12 w-12 items-center justify-center rounded-full bg-accent/10 transition-transform duration-700 ${statsSection.visible ? "scale-100" : "scale-0"}`} style={{ transitionDelay: `${i * 200 + 100}ms` }}>
-                <s.icon className="h-5 w-5 text-accent" />
-              </div>
-              <span className="font-heading text-3xl font-bold text-primary md:text-4xl">{s.value}</span>
-              <span className="text-sm text-muted-foreground">{s.label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
+      {/* Social Proof Stats with animated counters */}
+      <SocialProofStats />
 
       {/* Workout Categories */}
       <section id="workout-categories" ref={cats.ref} className="relative overflow-hidden bg-background py-20 md:py-28 scroll-mt-20">
