@@ -14,6 +14,7 @@ import { usePremiumStatus } from "@/hooks/use-premium-status";
 import PremiumGate from "@/components/PremiumGate";
 import { useWorkoutStreak } from "@/hooks/use-workout-streak";
 import { useRecommendedWorkout } from "@/hooks/use-recommended-workout";
+import AchievementsSection from "@/components/AchievementsSection";
 import heroBanner from "@/assets/hero-dashboard.jpg";
 import categoryStrength from "@/assets/category-strength.jpg";
 import categoryCardio from "@/assets/category-cardio.jpg";
@@ -103,6 +104,9 @@ const Dashboard = () => {
   
   const [totalThisWeek, setTotalThisWeek] = useState(0);
   const [programProgress, setProgramProgress] = useState<ProgramProgress[]>([]);
+  const [totalWorkouts, setTotalWorkouts] = useState(0);
+  const [allProgramProgress, setAllProgramProgress] = useState<ProgramProgress[]>([]);
+  const [categoriesCount, setCategoriesCount] = useState({ strength: 0, cardio: 0, flexibility: 0 });
 
   useEffect(() => {
     if (!user) return;
@@ -124,6 +128,24 @@ const Dashboard = () => {
       .limit(10)
       .then(({ data }) => {
         if (data) setRecentWorkouts(data as WorkoutEntry[]);
+      });
+
+    // Aggregate stats for achievements
+    supabase
+      .from("workout_progress")
+      .select("category")
+      .eq("user_id", user.id)
+      .then(({ data }) => {
+        if (data) {
+          setTotalWorkouts(data.length);
+          const counts = { strength: 0, cardio: 0, flexibility: 0 };
+          data.forEach((w: any) => {
+            if (w.category === "strength") counts.strength++;
+            else if (w.category === "cardio") counts.cardio++;
+            else if (w.category === "flexibility") counts.flexibility++;
+          });
+          setCategoriesCount(counts);
+        }
       });
 
     supabase
@@ -200,6 +222,7 @@ const Dashboard = () => {
       })
     ).then((results) => {
       setProgramProgress(results.filter((p) => p.completed > 0));
+      setAllProgramProgress(results);
     });
   }, [user]);
 
@@ -318,6 +341,17 @@ const Dashboard = () => {
             </Card>
           </RevealSection>
         )}
+
+        {/* Achievements */}
+        <RevealSection delay={75}>
+          <AchievementsSection
+            streak={streak}
+            totalWorkouts={totalWorkouts}
+            totalThisWeek={totalThisWeek}
+            programsCompleted={allProgramProgress.filter((p) => p.completed >= p.total).length}
+            categoriesCount={categoriesCount}
+          />
+        </RevealSection>
 
         {/* Today's Recommended Workout */}
         {recommendedWorkout && (
