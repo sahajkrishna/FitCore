@@ -342,6 +342,17 @@ const Dashboard = () => {
           </RevealSection>
         )}
 
+        {/* Achievements */}
+        <RevealSection delay={75}>
+          <AchievementsSection
+            streak={streak}
+            totalWorkouts={totalWorkouts}
+            totalThisWeek={totalThisWeek}
+            programsCompleted={allProgramProgress.filter((p) => p.completed >= p.total).length}
+            categoriesCount={categoriesCount}
+          />
+        </RevealSection>
+
         {/* Today's Recommended Workout */}
         {recommendedWorkout && (
           <RevealSection delay={50}>
