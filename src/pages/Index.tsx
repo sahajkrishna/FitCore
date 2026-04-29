@@ -8,6 +8,7 @@ import RevealSection from "@/components/RevealSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import AiWorkoutCTA from "@/components/AiWorkoutCTA";
 import SocialProofStats from "@/components/SocialProofStats";
+import LiveUsersIndicator from "@/components/LiveUsersIndicator";
 
 import heroImg from "@/assets/hero-dashboard.jpg";
 import strengthImg from "@/assets/category-strength.jpg";
