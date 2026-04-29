@@ -292,6 +292,8 @@ const Index = () => {
           </Button>
         </div>
       </section>
+
+      <LiveUsersIndicator />
     </Layout>
   );
 };
